@@ -61,6 +61,8 @@ npx wrangler secret put TOKEN_SECRET --env staging
 
 ## 五、部署
 
+> 本项目**没有接 Cloudflare Workers Builds / GitHub 自动构建**：`git push` 只更新代码仓库，不会发布线上。只有在本机手动执行下面的命令才会更新 Worker；如果后台以后被接上构建连接，先断开再 push。
+
 ```powershell
 cd D:\giteeContent\deep-sea-dash-of-the-milk-frog\web
 
