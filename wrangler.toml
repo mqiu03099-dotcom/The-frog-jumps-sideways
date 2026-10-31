@@ -1,0 +1,9 @@
+name = "the-frog-jumps-sideways-web"
+compatibility_date = "2026-10-31"
+
+[assets]
+directory = "."
+
+[[routes]]
+pattern = "milkyfrog-jump.toolsbox.vip"
+custom_domain = true
