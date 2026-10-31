@@ -12,8 +12,7 @@
 
 域名映射写在 `js/config/api.js` 的 `API_BASE_URL_BY_ENV_VERSION`，改完必须重新上传体验版/重新发版才生效。
 
-当前状态（2026-10-31）：两个新库已建表，两套密钥已写入；测试环境已发布并验证通过（`/api/leaderboard` 返回 200，已有真实成绩）。线上 Worker 仍是旧版本，未包含 `/api/*`，需执行一次 
-px wrangler deploy` 才生效。
+当前状态（2026-10-31）：测试环境保持原样并验证通过；线上 `milkfrog-web` 已部署到「零时使用」账号，新库已建表，临时地址为 https://milkfrog-web.icy-water-bfcd.workers.dev 。`milkfrog.vip` 待 Cloudflare Zone 激活后绑定；旧 `milkyfrog-jump.toolsbox.vip` 在新域名可访问前暂时保留。
 
 ## 二、接口与读行数
 

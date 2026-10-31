@@ -1,4 +1,4 @@
-name = "the-frog-jumps-sideways-web"
+name = "milkfrog-web"
 main = "worker/index.js"
 compatibility_date = "2026-10-31"
 
@@ -10,13 +10,13 @@ binding = "ASSETS"
 port = 8788
 
 [[routes]]
-pattern = "milkyfrog-jump.toolsbox.vip"
+pattern = "milkfrog.vip"
 custom_domain = true
 
 [[d1_databases]]
 binding = "DB"
 database_name = "milk-frog-jump"
-database_id = "0b1df849-faf0-4fb6-a689-66ea4142115c"
+database_id = "0d52075b-362a-49cd-93ac-f3ecbdc59a68"
 
 # 体验版（trial）专用环境：独立 worker + 独立 D1，测试数据不写进线上库
 [env.staging]
