@@ -2,5 +2,9 @@
 .gitignore
 .wrangler
 .assetsignore
+.dev.vars
 wrangler.toml
 README.md
+DEPLOY.md
+worker
+db
