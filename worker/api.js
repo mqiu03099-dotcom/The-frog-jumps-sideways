@@ -2,17 +2,40 @@
 const TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60;
 // 榜单固定只出前 6 名，和客户端面板的行数一致
 const LIST_LIMIT = 6;
-// 列表和个人名次必须共用同一套排序，否则同分时名次会和行号不一致
+// 榜单是纯读，5 分钟内复用同一份结果，避免每个玩家开榜都重扫一遍分桶
+const LEADERBOARD_TTL_SECONDS = 5 * 60;
+// 前 6 名和分数直方图是全局数据，5 分钟内跨用户复用
+const LEADERBOARD_LIST_CACHE = "/leaderboard-list";
+// v2：旧版缓存值是数组，换 key 避免新代码读到旧格式
+const LEADERBOARD_HISTOGRAM_CACHE = "/leaderboard-histogram-v2";
+// 同分并列同名次；同分时列表顺序仍按达成时间、再按 openid 保证稳定
 const RANK_ORDER = "best_score DESC, best_at ASC, openid ASC";
 
-const json = (data, status = 200) =>
+const json = (data, status = 200, maxAge = 0) =>
   new Response(JSON.stringify(data), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
+      "cache-control": maxAge ? `public, max-age=${maxAge}` : "no-store",
     },
   });
+
+const readCacheJson = async (key) => {
+  const cached = await caches.default.match(key);
+
+  if (!cached) {
+    return null;
+  }
+
+  try {
+    return await cached.json();
+  } catch (error) {
+    return null;
+  }
+};
+
+const writeCacheJson = (key, data) =>
+  caches.default.put(key, json(data, 200, LEADERBOARD_TTL_SECONDS));
 
 const toBase64Url = (buffer) =>
   btoa(String.fromCharCode(...new Uint8Array(buffer)))
@@ -143,16 +166,7 @@ async function handleLogin(request, env) {
     return json({ error: "登录失败" }, 401);
   }
 
-  // 有就正常登录，没有就注册；昵称用哈希值，不额外请求微信用户信息
-  const nickname = await createNickname(session.openid);
-
-  await env.DB.prepare(
-    `INSERT INTO players (openid, nickname, best_at) VALUES (?, ?, ?)
-     ON CONFLICT(openid) DO NOTHING`,
-  )
-    .bind(session.openid, nickname, Math.floor(Date.now() / 1000))
-    .run();
-
+  // 登录只发 token，不写库；首次交分时才建 players 行，省掉一次写
   return json({ token: await createToken(session.openid, env.TOKEN_SECRET) });
 }
 
@@ -170,15 +184,21 @@ async function handleScore(request, env) {
   }
 
   // 只有分数真的变高才写库；平局或更低分不产生写入
-  await env.DB.prepare(
-    `INSERT INTO players (openid, best_score, best_at) VALUES (?, ?, ?)
+  // RETURNING 直接带回结果，省掉破纪录后的一次回查；没写成功时才回查
+  const written = await env.DB.prepare(
+    `INSERT INTO players (openid, nickname, best_score, best_at) VALUES (?, ?, ?, ?)
      ON CONFLICT(openid) DO UPDATE SET
        best_score = excluded.best_score,
        best_at = excluded.best_at
-     WHERE excluded.best_score > players.best_score`,
+     WHERE excluded.best_score > players.best_score
+     RETURNING best_score`,
   )
-    .bind(openid, score, Math.floor(Date.now() / 1000))
-    .run();
+    .bind(openid, await createNickname(openid), score, Math.floor(Date.now() / 1000))
+    .first();
+
+  if (written) {
+    return json({ bestScore: written.best_score });
+  }
 
   const row = await env.DB.prepare(
     "SELECT best_score FROM players WHERE openid = ?",
@@ -189,16 +209,45 @@ async function handleScore(request, env) {
   return json({ bestScore: row ? row.best_score : score });
 }
 
-async function readMyRank(request, env) {
-  const openid = await readOpenid(request, env);
+let histogramPending = null;
 
+// 直方图只有一行 JSON，5 分钟一刷；冷启动并发只打一次库
+async function readHistogram(url, env) {
+  const key = new Request(new URL(LEADERBOARD_HISTOGRAM_CACHE, url));
+  const cached = await readCacheJson(key);
+
+  if (cached) {
+    return cached;
+  }
+
+  if (!histogramPending) {
+    histogramPending = env.DB.prepare(
+      "SELECT histogram FROM score_stats WHERE id = 1",
+    )
+      .first()
+      .then(async (row) => {
+        const histogram = row ? JSON.parse(row.histogram) : {};
+
+        await writeCacheJson(key, histogram);
+
+        return histogram;
+      })
+      .finally(() => {
+        histogramPending = null;
+      });
+  }
+
+  return histogramPending;
+}
+
+async function readMyRank(openid, env, readHistogram) {
   if (!openid) {
     return null;
   }
 
   // 自己的那一行走主键查，只读 1 行
   const me = await env.DB.prepare(
-    "SELECT nickname, best_score, best_at FROM players WHERE openid = ?",
+    "SELECT nickname, best_score FROM players WHERE openid = ?",
   )
     .bind(openid)
     .first();
@@ -211,52 +260,70 @@ async function readMyRank(request, env) {
     return { rank: null, score: 0, nickname: me.nickname || "" };
   }
 
-  // 名次 = 排在自己前面的人数 + 1，口径必须和 RANK_ORDER 一致：
-  // 分数高的在前；同分 best_at 早的在前；再相同按 openid
-  // 前面完整的桶由 score_buckets 汇总（几百行以内），桶内只剩少数几行要精确数
-  const bucket = Math.floor(me.best_score / 10);
-  const row = await env.DB.prepare(
-    `SELECT
-       (SELECT COALESCE(SUM(cnt), 0) FROM score_buckets WHERE bucket > ?) AS higher_buckets,
-       (SELECT COUNT(*) FROM players
-         WHERE best_score > ? AND best_score < ?) AS same_bucket,
-       (SELECT COUNT(*) FROM players
-         WHERE best_score = ? AND (best_at < ? OR (best_at = ? AND openid < ?))) AS tie_ahead`,
-  )
-    .bind(
-      bucket,
-      me.best_score,
-      (bucket + 1) * 10,
-      me.best_score,
-      me.best_at,
-      me.best_at,
-      openid,
-    )
-    .first();
+  // 名次 = 比我分高的人数 + 1；直方图最多旧 5 分钟，自己的最新分已经在 me 里
+  const histogram = await readHistogram();
+  let higher = 0;
+
+  for (const [score, count] of Object.entries(histogram)) {
+    if (Number(score) > me.best_score) higher += count;
+  }
 
   return {
-    rank: row.higher_buckets + row.same_bucket + row.tie_ahead + 1,
+    rank: higher + 1,
     score: me.best_score,
     nickname: me.nickname || "",
   };
 }
 
 async function handleLeaderboard(request, env) {
-  // 榜单只读 6 行，直接走 players_rank 索引
-  const { results } = await env.DB.prepare(
-    `SELECT nickname, best_score FROM players WHERE best_score > 0
-     ORDER BY ${RANK_ORDER} LIMIT ?`,
-  )
-    .bind(LIST_LIMIT)
-    .all();
+  const url = new URL(request.url);
+  const fresh = url.searchParams.get("fresh") === "1";
+  const openid = await readOpenid(request, env);
 
-  const list = results.map((row, index) => ({
-    rank: index + 1,
-    nickname: row.nickname || "匿名奶蛙",
-    score: row.best_score,
-  }));
+  // 榜单只读 6 行，走 players_rank 覆盖索引；fresh=1 顺带刷新，破纪录后能看到自己
+  const listKey = new Request(new URL(LEADERBOARD_LIST_CACHE, url));
+  let results = fresh ? null : await readCacheJson(listKey);
 
-  return json({ list, me: await readMyRank(request, env) });
+  if (!results) {
+    results = (
+      await env.DB.prepare(
+        `SELECT openid, nickname, best_score FROM players WHERE best_score > 0
+         ORDER BY ${RANK_ORDER} LIMIT ?`,
+      )
+        .bind(LIST_LIMIT)
+        .all()
+    ).results;
+    await writeCacheJson(listKey, results);
+  }
+
+  // 同分并列同名次：名次从相邻两行的分数推出来，不用再查一次库
+  let rank = 0;
+  const list = results.map((row, index) => {
+    if (index === 0 || row.best_score !== results[index - 1].best_score) rank = index + 1;
+
+    return {
+      rank,
+      nickname: row.nickname || "匿名奶蛙",
+      score: row.best_score,
+    };
+  });
+
+  // 已经在前 6 名时榜单项就是自己，不用再算一次名次（省掉整段桶查询）
+  const mine = openid ? results.findIndex((row) => row.openid === openid) : -1;
+
+  const payload =
+    mine >= 0
+      ? {
+          list,
+          me: {
+            rank: list[mine].rank,
+            score: results[mine].best_score,
+            nickname: results[mine].nickname || "",
+          },
+        }
+      : { list, me: await readMyRank(openid, env, () => readHistogram(url, env)) };
+
+  return json(payload, 200, LEADERBOARD_TTL_SECONDS);
 }
 
 const ROUTES = {

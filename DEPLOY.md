@@ -8,26 +8,30 @@
 | --- | --- | --- | --- | --- |
 | 本地 | develop | http://127.0.0.1:8788 | `wrangler dev`（web/ 目录） | `web/.wrangler/state`（本地文件） |
 | 测试 | trial | https://milkyfrog-jump-dev.toolsbox.vip | the-frog-jumps-sideways-web-staging | milk-frog-jump-staging |
-| 线上 | release | https://milkyfrog-jump.toolsbox.vip | the-frog-jumps-sideways-web | milk-frog-jump |
+| 线上 | release | https://milkfrog.vip | milkfrog-web | milk-frog-jump |
 
 域名映射写在 `js/config/api.js` 的 `API_BASE_URL_BY_ENV_VERSION`，改完必须重新上传体验版/重新发版才生效。
 
-当前状态（2026-10-31）：两个新库已建表，两套密钥已写入；测试环境已发布并验证通过（`/api/leaderboard` 返回空榜）。线上 Worker 仍是旧版本，未包含 `/api/*`，需执行一次 `npx wrangler deploy` 才生效。
+当前状态（2026-10-31）：两个新库已建表，两套密钥已写入；测试环境已发布并验证通过（`/api/leaderboard` 返回 200，已有真实成绩）。线上 Worker 仍是旧版本，未包含 `/api/*`，需执行一次 
+px wrangler deploy` 才生效。
 
 ## 二、接口与读行数
 
 | 方法 路径 | 用途 | 鉴权 | 写库 |
 | --- | --- | --- | --- |
-| `POST /api/login` | `code` 换 7 天 token；首次登录自动注册 | 不需要 | 仅新用户插 1 行 |
+| `POST /api/login` | `code` 换 7 天 token | 不需要 | 不写库（首次交分才建 players 行） |
 | `POST /api/score` | 上报本局分数，只在破纪录时更新 | 需要 | 破纪录才写 1 行 |
 | `GET /api/leaderboard` | 前 6 名 + 自己的名次 | 可选 | 不写 |
 
-- `players_rank (best_score DESC, best_at ASC, openid ASC)` 同时覆盖榜单排序和名次统计，字段顺序不能改。
-- 名次不扫全表：`score_buckets` 按 10 分一桶汇总，查询只读自己前面的桶 + 同桶少量行。
+- `players_rank (best_score DESC, best_at ASC, openid ASC, nickname)` 同时覆盖榜单排序和名次统计；前 3 列顺序不能改，末尾的 
+ickname` 让 6 条榜单只读索引、不回表。
+- 名次不扫全表：`score_stats` 用单行 JSON 存「分数 → 人数」直方图，查询只读这 1 行；每次破纪录也只写这 1 行，不按分桶逐行写。
 - 登录 token 是 HMAC 签名，不建会话表；客户端缓存 7 天，过期 401 自动重登一次。
 - 昵称是 openid 的 SHA-256 前 8 位（`奶蛙xxxxxxxx`），不展示 openid 原文。
 - 榜单固定 6 条，和游戏面板行数一致；不要在客户端传 `limit`。
-- 客户端本地存最高分，本局不超过本地最高分就不发上报请求；服务端仍只在破纪录时写库。
+- 客户端本地存最高分，本局不超过本地最高分就不发上报请求；服务端仍只在破纪录时写库。`POST /api/score` 破纪录时用 `RETURNING` 直接带回新分，不再回查（省 1 行读）；只有没写成功（分数没变高）才回查一次。
+- 已经在前 6 名时直接用榜单项当「我」，不再跑名次查询；只有 7 名以后才读直方图。
+- 客户端榜单结果缓存 60 秒，反复开关面板不重复请求；破纪录上报成功后缓存立即失效，名次仍然是新的。
 
 ## 三、首次建库
 
@@ -42,6 +46,27 @@ npx wrangler d1 execute milk-frog-jump-staging --remote --file=db/schema.sql
 ```
 
 `schema.sql` 可重复执行（`IF NOT EXISTS`），末尾没有清表语句。
+
+已执行过的增量迁移（两个库都已跑过，新库直接跑 `schema.sql` 即可）：
+
+```powershell
+npx wrangler d1 execute milk-frog-jump-staging --remote --file=db/migrations/2026-10-31-covering-rank-index.sql
+npx wrangler d1 execute milk-frog-jump --remote --file=db/migrations/2026-10-31-covering-rank-index.sql
+```
+
+名次改为同分并列同名次（分数桶 1 分一桶），必须先迁移再发布 worker：
+
+```powershell
+npx wrangler d1 execute milk-frog-jump-staging --remote --file=db/migrations/2026-10-31-score-bucket-width1.sql
+npx wrangler d1 execute milk-frog-jump --remote --file=db/migrations/2026-10-31-score-bucket-width1.sql
+```
+
+直方图改为单行 JSON（重建触发器并删除 `score_buckets`），同样必须先迁移再发布 worker：
+
+```powershell
+npx wrangler d1 execute milk-frog-jump-staging --remote --file=db/migrations/2026-10-31-json-histogram.sql
+npx wrangler d1 execute milk-frog-jump --remote --file=db/migrations/2026-10-31-json-histogram.sql
+```
 
 ## 四、密钥
 
@@ -76,7 +101,7 @@ npx wrangler deploy
 部署后验证：
 
 ```powershell
-curl.exe -s https://milkyfrog-jump.toolsbox.vip/api/leaderboard
+curl.exe -s https://milkfrog.vip/api/leaderboard
 curl.exe -s https://milkyfrog-jump-dev.toolsbox.vip/api/leaderboard
 ```
 
@@ -86,7 +111,7 @@ curl.exe -s https://milkyfrog-jump-dev.toolsbox.vip/api/leaderboard
 
 开发管理 → 开发设置 → 服务器域名 → request 合法域名，需要加：
 
-- `https://milkyfrog-jump.toolsbox.vip`
+- `https://milkfrog.vip`
 - `https://milkyfrog-jump-dev.toolsbox.vip`
 
 域名每月修改次数有限，加之前确认两个都要用。开发者工具本地调试不受影响（`project.config.json` 已关闭 urlCheck）。
