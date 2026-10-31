@@ -20,7 +20,7 @@ database_id = "0d52075b-362a-49cd-93ac-f3ecbdc59a68"
 
 # 体验版（trial）专用环境：独立 worker + 独立 D1，测试数据不写进线上库
 [env.staging]
-name = "the-frog-jumps-sideways-web-staging"
+name = "milkyfrog-web-staging"
 main = "worker/index.js"
 compatibility_date = "2026-10-31"
 
@@ -31,8 +31,8 @@ binding = "ASSETS"
 [[env.staging.d1_databases]]
 binding = "DB"
 database_name = "milk-frog-jump-staging"
-database_id = "82bbcb56-2c86-474d-aa58-8d264be83b6b"
+database_id = "2d11e0fb-8472-4c54-b574-8f8b148658bc"
 
 [[env.staging.routes]]
-pattern = "milkyfrog-jump-dev.toolsbox.vip"
+pattern = "dev.milkyfrog.vip"
 custom_domain = true

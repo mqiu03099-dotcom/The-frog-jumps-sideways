@@ -7,12 +7,12 @@
 | 环境 | 小游戏 envVersion | API 域名 | Cloudflare Worker | D1 库 |
 | --- | --- | --- | --- | --- |
 | 本地 | develop | http://127.0.0.1:8788 | `wrangler dev`（web/ 目录） | `web/.wrangler/state`（本地文件） |
-| 测试 | trial | https://milkyfrog-jump-dev.toolsbox.vip | the-frog-jumps-sideways-web-staging | milk-frog-jump-staging |
+| 测试 | trial | https://dev.milkyfrog.vip | milkyfrog-web-staging | milk-frog-jump-staging |
 | 线上 | release | https://milkyfrog.vip | milkyfrog-web | milk-frog-jump |
 
 域名映射写在 `js/config/api.js` 的 `API_BASE_URL_BY_ENV_VERSION`，改完必须重新上传体验版/重新发版才生效。
 
-当前状态（2026-10-31）：测试环境保持原样并验证通过；线上 `milkyfrog-web` 已部署到 Cloudflare 账号 `milkyfrog.vip`，`https://milkyfrog.vip` 已验证通过（首页 200、排行榜返回空列表、无效 code 登录返回 401）。域名走 Workers 路由 `milkyfrog.vip/*`，apex 原有的代理 A 记录保留未动；旧 `milkyfrog-jump.toolsbox.vip` 仍被已发布的小游戏引用，需等新版小程序发布后再删除。
+当前状态（2026-10-31）：线上 `milkyfrog-web`（`https://milkyfrog.vip`，Workers 路由）与测试 `milkyfrog-web-staging`（`https://dev.milkyfrog.vip`，Custom Domain）均已部署到 Cloudflare 账号 `milkyfrog.vip`，两套 D1 已建表并各写入三个密钥；线上首页 200、排行榜返回空列表、无效 code 登录返回 401，测试环境同样通过。旧账号的 `milkyfrog-jump.toolsbox.vip`、`milkyfrog-jump-dev.toolsbox.vip` 及其 Worker、D1 已删除，旧域名不再解析。
 
 ## 二、接口与读行数
 
@@ -90,7 +90,7 @@ npx wrangler secret put TOKEN_SECRET --env staging
 ```powershell
 cd D:\giteeContent\deep-sea-dash-of-the-milk-frog\web
 
-# 测试环境（只影响 milkyfrog-jump-dev）
+# 测试环境（只影响 dev.milkyfrog.vip）
 npx wrangler deploy --env staging
 
 # 线上（不带 --env）
@@ -101,7 +101,7 @@ npx wrangler deploy
 
 ```powershell
 curl.exe -s https://milkyfrog.vip/api/leaderboard
-curl.exe -s https://milkyfrog-jump-dev.toolsbox.vip/api/leaderboard
+curl.exe -s https://dev.milkyfrog.vip/api/leaderboard
 ```
 
 应返回 `{"list":[],"me":null}`；返回 `{"error":"接口不存在"}` 说明还是旧代码。
@@ -111,7 +111,7 @@ curl.exe -s https://milkyfrog-jump-dev.toolsbox.vip/api/leaderboard
 开发管理 → 开发设置 → 服务器域名 → request 合法域名，需要加：
 
 - `https://milkyfrog.vip`
-- `https://milkyfrog-jump-dev.toolsbox.vip`
+- `https://dev.milkyfrog.vip`
 
 域名每月修改次数有限，加之前确认两个都要用。开发者工具本地调试不受影响（`project.config.json` 已关闭 urlCheck）。
 
