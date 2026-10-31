@@ -8,11 +8,11 @@
 | --- | --- | --- | --- | --- |
 | 本地 | develop | http://127.0.0.1:8788 | `wrangler dev`（web/ 目录） | `web/.wrangler/state`（本地文件） |
 | 测试 | trial | https://milkyfrog-jump-dev.toolsbox.vip | the-frog-jumps-sideways-web-staging | milk-frog-jump-staging |
-| 线上 | release | https://milkfrog.vip | milkfrog-web | milk-frog-jump |
+| 线上 | release | https://milkyfrog.vip | milkyfrog-web | milk-frog-jump |
 
 域名映射写在 `js/config/api.js` 的 `API_BASE_URL_BY_ENV_VERSION`，改完必须重新上传体验版/重新发版才生效。
 
-当前状态（2026-10-31）：测试环境保持原样并验证通过；线上 `milkfrog-web` 已部署到「零时使用」账号，新库已建表，临时地址为 https://milkfrog-web.icy-water-bfcd.workers.dev 。`milkfrog.vip` 待 Cloudflare Zone 激活后绑定；旧 `milkyfrog-jump.toolsbox.vip` 在新域名可访问前暂时保留。
+当前状态（2026-10-31）：测试环境保持原样并验证通过；线上 `milkyfrog-web` 已部署到 Cloudflare 账号 `milkyfrog.vip`，`https://milkyfrog.vip` 已验证通过（首页 200、排行榜返回空列表、无效 code 登录返回 401）。域名走 Workers 路由 `milkyfrog.vip/*`，apex 原有的代理 A 记录保留未动；旧 `milkyfrog-jump.toolsbox.vip` 仍被已发布的小游戏引用，需等新版小程序发布后再删除。
 
 ## 二、接口与读行数
 
@@ -100,7 +100,7 @@ npx wrangler deploy
 部署后验证：
 
 ```powershell
-curl.exe -s https://milkfrog.vip/api/leaderboard
+curl.exe -s https://milkyfrog.vip/api/leaderboard
 curl.exe -s https://milkyfrog-jump-dev.toolsbox.vip/api/leaderboard
 ```
 
@@ -110,7 +110,7 @@ curl.exe -s https://milkyfrog-jump-dev.toolsbox.vip/api/leaderboard
 
 开发管理 → 开发设置 → 服务器域名 → request 合法域名，需要加：
 
-- `https://milkfrog.vip`
+- `https://milkyfrog.vip`
 - `https://milkyfrog-jump-dev.toolsbox.vip`
 
 域名每月修改次数有限，加之前确认两个都要用。开发者工具本地调试不受影响（`project.config.json` 已关闭 urlCheck）。

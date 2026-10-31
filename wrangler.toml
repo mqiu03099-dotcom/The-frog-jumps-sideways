@@ -1,4 +1,4 @@
-name = "milkfrog-web"
+name = "milkyfrog-web"
 main = "worker/index.js"
 compatibility_date = "2026-10-31"
 
@@ -10,8 +10,8 @@ binding = "ASSETS"
 port = 8788
 
 [[routes]]
-pattern = "milkfrog.vip"
-custom_domain = true
+pattern = "milkyfrog.vip/*"
+zone_name = "milkyfrog.vip"
 
 [[d1_databases]]
 binding = "DB"
