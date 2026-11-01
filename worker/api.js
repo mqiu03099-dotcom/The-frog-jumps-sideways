@@ -2,40 +2,17 @@
 const TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60;
 // 榜单固定只出前 6 名，和客户端面板的行数一致
 const LIST_LIMIT = 6;
-// 榜单是纯读，5 分钟内复用同一份结果，避免每个玩家开榜都重扫一遍分桶
-const LEADERBOARD_TTL_SECONDS = 5 * 60;
-// 前 6 名和分数直方图是全局数据，5 分钟内跨用户复用
-const LEADERBOARD_LIST_CACHE = "/leaderboard-list";
-// v2：旧版缓存值是数组，换 key 避免新代码读到旧格式
-const LEADERBOARD_HISTOGRAM_CACHE = "/leaderboard-histogram-v2";
 // 同分并列同名次；同分时列表顺序仍按达成时间、再按 openid 保证稳定
 const RANK_ORDER = "best_score DESC, best_at ASC, openid ASC";
 
-const json = (data, status = 200, maxAge = 0) =>
+const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": maxAge ? `public, max-age=${maxAge}` : "no-store",
+      "cache-control": "no-store",
     },
   });
-
-const readCacheJson = async (key) => {
-  const cached = await caches.default.match(key);
-
-  if (!cached) {
-    return null;
-  }
-
-  try {
-    return await cached.json();
-  } catch (error) {
-    return null;
-  }
-};
-
-const writeCacheJson = (key, data) =>
-  caches.default.put(key, json(data, 200, LEADERBOARD_TTL_SECONDS));
 
 const toBase64Url = (buffer) =>
   btoa(String.fromCharCode(...new Uint8Array(buffer)))
@@ -209,38 +186,16 @@ async function handleScore(request, env) {
   return json({ bestScore: row ? row.best_score : score });
 }
 
-let histogramPending = null;
+// 直方图只有一行 JSON，每次开榜都读取最新值
+async function readHistogram(env) {
+  const row = await env.DB.prepare(
+    "SELECT histogram FROM score_stats WHERE id = 1",
+  ).first();
 
-// 直方图只有一行 JSON，5 分钟一刷；冷启动并发只打一次库
-async function readHistogram(url, env) {
-  const key = new Request(new URL(LEADERBOARD_HISTOGRAM_CACHE, url));
-  const cached = await readCacheJson(key);
-
-  if (cached) {
-    return cached;
-  }
-
-  if (!histogramPending) {
-    histogramPending = env.DB.prepare(
-      "SELECT histogram FROM score_stats WHERE id = 1",
-    )
-      .first()
-      .then(async (row) => {
-        const histogram = row ? JSON.parse(row.histogram) : {};
-
-        await writeCacheJson(key, histogram);
-
-        return histogram;
-      })
-      .finally(() => {
-        histogramPending = null;
-      });
-  }
-
-  return histogramPending;
+  return row ? JSON.parse(row.histogram) : {};
 }
 
-async function readMyRank(openid, env, readHistogram) {
+async function readMyRank(openid, env) {
   if (!openid) {
     return null;
   }
@@ -260,8 +215,8 @@ async function readMyRank(openid, env, readHistogram) {
     return { rank: null, score: 0, nickname: me.nickname || "" };
   }
 
-  // 名次 = 比我分高的人数 + 1；直方图最多旧 5 分钟，自己的最新分已经在 me 里
-  const histogram = await readHistogram();
+  // 名次 = 比我分高的人数 + 1
+  const histogram = await readHistogram(env);
   let higher = 0;
 
   for (const [score, count] of Object.entries(histogram)) {
@@ -276,25 +231,17 @@ async function readMyRank(openid, env, readHistogram) {
 }
 
 async function handleLeaderboard(request, env) {
-  const url = new URL(request.url);
-  const fresh = url.searchParams.get("fresh") === "1";
   const openid = await readOpenid(request, env);
 
-  // 榜单只读 6 行，走 players_rank 覆盖索引；fresh=1 顺带刷新，破纪录后能看到自己
-  const listKey = new Request(new URL(LEADERBOARD_LIST_CACHE, url));
-  let results = fresh ? null : await readCacheJson(listKey);
-
-  if (!results) {
-    results = (
-      await env.DB.prepare(
-        `SELECT openid, nickname, best_score FROM players WHERE best_score > 0
-         ORDER BY ${RANK_ORDER} LIMIT ?`,
-      )
-        .bind(LIST_LIMIT)
-        .all()
-    ).results;
-    await writeCacheJson(listKey, results);
-  }
+  // 榜单只读 6 行，走 players_rank 覆盖索引
+  const results = (
+    await env.DB.prepare(
+      `SELECT openid, nickname, best_score FROM players WHERE best_score > 0
+       ORDER BY ${RANK_ORDER} LIMIT ?`,
+    )
+      .bind(LIST_LIMIT)
+      .all()
+  ).results;
 
   // 同分并列同名次：名次从相邻两行的分数推出来，不用再查一次库
   let rank = 0;
@@ -321,9 +268,9 @@ async function handleLeaderboard(request, env) {
             nickname: results[mine].nickname || "",
           },
         }
-      : { list, me: await readMyRank(openid, env, () => readHistogram(url, env)) };
+      : { list, me: await readMyRank(openid, env) };
 
-  return json(payload, 200, LEADERBOARD_TTL_SECONDS);
+  return json(payload);
 }
 
 const ROUTES = {
