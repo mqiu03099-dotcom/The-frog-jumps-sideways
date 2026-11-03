@@ -1181,7 +1181,7 @@ html:has(.site-body) {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 1.8rem max(1.5rem, calc((100% - 720px) / 2));
+  padding: 1.8rem max(1.5rem, calc((100% - 1120px) / 2));
 }
 
 .detail-back {
