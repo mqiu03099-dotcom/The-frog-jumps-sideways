@@ -534,6 +534,7 @@ html:has(.site-body) {
 .site-orbs {
   position: fixed;
   inset: 0;
+  height: 100vh;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
