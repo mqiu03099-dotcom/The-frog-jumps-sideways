@@ -1163,6 +1163,13 @@ html:has(.site-body) {
   transform: none;
 }
 
+.anim-ready .site-hero .reveal,
+.anim-ready .invitation-paper {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
 @keyframes site-enter {
   from {
     opacity: 0;
@@ -1381,6 +1388,7 @@ html:has(.site-body) {
 
   .site-hero-figure {
     order: 2;
+    width: 100%;
     max-width: 22rem;
     margin: 0 auto;
   }

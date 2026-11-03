@@ -11,7 +11,7 @@ if (header) {
     document.documentElement.style.setProperty('--header-progress', progress);
   };
 
-  updateHeader();
+  requestAnimationFrame(updateHeader);
   window.addEventListener('scroll', updateHeader, { passive: true });
 }
 
