@@ -5,6 +5,8 @@ compatibility_date = "2026-10-31"
 [assets]
 directory = "."
 binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+run_worker_first = ["/googlec0b1348d6b9cc6f8.html"]
 
 [dev]
 port = 8788
@@ -27,6 +29,7 @@ compatibility_date = "2026-10-31"
 [env.staging.assets]
 directory = "."
 binding = "ASSETS"
+html_handling = "auto-trailing-slash"
 
 [[env.staging.d1_databases]]
 binding = "DB"

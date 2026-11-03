@@ -9,6 +9,12 @@ export default {
       return handleApi(request, env);
     }
 
+    if (pathname === "/googlec0b1348d6b9cc6f8.html") {
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = "/googlec0b1348d6b9cc6f8";
+      return env.ASSETS.fetch(new Request(assetUrl, request));
+    }
+
     return env.ASSETS.fetch(request);
   },
 };

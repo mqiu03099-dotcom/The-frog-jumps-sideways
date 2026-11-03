@@ -24,7 +24,7 @@ const copyGameName = async () => {
     await navigator.clipboard.writeText(gameName);
     showToast("名称已复制，打开微信搜索开玩");
   } catch (error) {
-    showToast("复制失败，请在微信搜索「奶蛙横跳」", "error");
+    showToast("复制失败，请在微信搜索「奶蛙跳跳跳」", "error");
   } finally {
     copyButtons.forEach((button) => {
       button.disabled = false;
