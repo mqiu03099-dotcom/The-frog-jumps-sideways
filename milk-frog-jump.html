@@ -417,6 +417,14 @@ button:focus-visible {
   font-weight: 900;
 }
 
+@media (max-width: 360px) {
+  .entry-actions .secondary-button {
+    gap: 0.4rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+}
+
 .entry-icon {
   width: 1rem;
   height: 1rem;
@@ -1216,6 +1224,7 @@ html:has(.site-body) {
   gap: 0.6rem 1.1rem;
   margin-top: 0.6rem;
   text-align: center;
+  font-size: 0.76rem;
 }
 
 .site-footer-links a {
@@ -1756,7 +1765,7 @@ html:has(.site-body) {
 
   <header class="detail-header">
     <a class="site-brand" href="/" aria-label="返回奶蛙小游戏集合首页">
-      <img class="site-brand-mark" src="/images/site-logo.webp" alt="奶蛙小游戏集合" width="34" height="34">
+      <img class="site-brand-mark" src="/images/site-logo.webp" srcset="/images/site-logo-34.webp?v=20261103-33 34w, /images/site-logo.webp 128w" sizes="34px" alt="奶蛙小游戏集合" width="34" height="34">
       <span class="site-brand-copy"><strong>奶蛙</strong><span>小游戏集合</span></span>
     </a>
     <a class="detail-back" href="/#works">← 返回作品集合</a>
@@ -1780,7 +1789,7 @@ html:has(.site-body) {
 
         <div class="entry-qr">
           <img
-            src="/images/cover-600.webp?v=20261103-33"
+            src="/images/cover-600.webp?v=20261103-33" srcset="/images/cover-600-224.webp?v=20261103-33 224w, /images/cover-600.webp?v=20261103-33 320w" sizes="(min-width: 640px) 224px, 176px"
             alt="奶蛙跳跳跳游戏封面"
             width="320"
             height="320"
@@ -1843,7 +1852,7 @@ html:has(.site-body) {
     <div class="site-footer-main">
       <div class="site-footer-brand-group">
         <div class="site-footer-brand">
-          <img class="site-brand-mark" src="/images/site-logo.webp" alt="奶蛙小游戏集合" width="29" height="29">
+          <img class="site-brand-mark" src="/images/site-logo.webp" srcset="/images/site-logo-34.webp?v=20261103-33 34w, /images/site-logo.webp 128w" sizes="34px" alt="奶蛙小游戏集合" width="29" height="29">
           <span>奶蛙小游戏集合</span>
         </div>
         <span class="site-footer-copy">© 2026 Milky Frog</span>
