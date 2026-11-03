@@ -531,33 +531,16 @@ html:has(.site-body) {
   color: var(--site-cream);
 }
 
-.site-body::before,
-.site-body::after {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  content: "";
-  pointer-events: none;
-}
-
-.site-body::before {
-  background: url("../images/forest-sky-bg.jpg") center 38% / cover no-repeat;
-  transform: scale(1.04);
-  animation: site-breathe 38s ease-in-out infinite alternate;
-}
-
-.site-body::after {
-  background:
-    radial-gradient(90% 70% at 20% 12%, rgb(12 58 43 / 55%), transparent 70%),
-    linear-gradient(180deg, rgb(5 30 23 / 72%) 0%, rgb(7 38 29 / 84%) 46%, rgb(4 24 19 / 96%) 100%);
-}
-
 .site-orbs {
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  background:
+    radial-gradient(90% 70% at 20% 12%, rgb(12 58 43 / 55%), transparent 70%),
+    linear-gradient(180deg, rgb(5 30 23 / 72%) 0%, rgb(7 38 29 / 84%) 46%, rgb(4 24 19 / 96%) 100%),
+    url("../images/forest-sky-bg.jpg") center 38% / cover no-repeat;
 }
 
 .site-orbs::before,
@@ -694,16 +677,6 @@ html:has(.site-body) {
 
   to {
     transform: translate3d(5%, 4%, 0) scale(1.18);
-  }
-}
-
-@keyframes site-breathe {
-  from {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: scale(1.1) translate3d(0, -1.5%, 0);
   }
 }
 
@@ -1331,7 +1304,6 @@ html:has(.site-body) {
 
   .site-orbs::before,
   .site-orbs::after,
-  .site-body::before,
   .anim-ready .site-header {
     animation: none;
   }
