@@ -884,6 +884,7 @@ html:has(.site-body) {
   gap: 2rem;
 }
 
+.site-section-head h1,
 .site-section-head h2 {
   margin: 0.9rem 0 0;
   color: var(--site-cream);
@@ -1699,29 +1700,6 @@ html:has(.site-body) {
 }
 
 /* 文章列表与详情 */
-.article-list-head {
-  padding: clamp(3rem, 8vw, 5rem) 0 0;
-  text-align: center;
-}
-
-.article-list-head h1 {
-  margin: 0.9rem 0 0;
-  color: var(--site-cream);
-  font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 6vw, 4rem);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
-}
-
-.article-list-head p {
-  max-width: 36rem;
-  margin: 1.2rem auto 0;
-  color: var(--site-muted);
-  font-size: 0.92rem;
-  line-height: 1.95;
-}
-
 .article-page {
   width: min(820px, 100%);
   margin: 0 auto;
