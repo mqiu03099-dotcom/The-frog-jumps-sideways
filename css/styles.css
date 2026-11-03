@@ -251,13 +251,13 @@ button:focus-visible {
 .primary-button {
   border: 2px solid var(--forest-deep);
   border-radius: 0.85rem;
-  background: var(--forest-leaf);
+  background: #357747;
   box-shadow: 0 0.48rem 0 #10483a;
   transition: transform 150ms ease, box-shadow 150ms ease, opacity 150ms ease, background 150ms ease;
 }
 
 .primary-button:hover {
-  background: #438e58;
+  background: #2f6f42;
 }
 
 .primary-button:active {
@@ -541,7 +541,7 @@ html:has(.site-body) {
   background:
     radial-gradient(90% 70% at 20% 12%, rgb(12 58 43 / 55%), transparent 70%),
     linear-gradient(180deg, rgb(5 30 23 / 72%) 0%, rgb(7 38 29 / 84%) 46%, rgb(4 24 19 / 96%) 100%),
-    url("../images/forest-sky-bg.jpg") center 38% / cover no-repeat;
+    url("../images/forest-sky-bg.webp") center 38% / cover no-repeat;
 }
 
 .site-orbs::before,
