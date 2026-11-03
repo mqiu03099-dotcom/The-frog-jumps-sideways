@@ -3,6 +3,7 @@
 .wrangler
 .assetsignore
 .dev.vars
+local
 wrangler.toml
 README.md
 DEPLOY.md
