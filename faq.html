@@ -96,9 +96,11 @@
 
 html {
   background: var(--forest-deep);
+  cursor: pointer;
 }
 
 body {
+  cursor: auto;
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
@@ -117,6 +119,46 @@ button {
 
 .page-scroll::-webkit-scrollbar {
   display: none;
+}
+
+html::-webkit-scrollbar {
+  width: 0.75rem;
+  height: 0.75rem;
+  cursor: pointer;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+
+html::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: var(--forest-gold);
+  background-clip: content-box;
+  cursor: pointer;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: var(--forest-cream);
+}
+
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-color: var(--forest-gold) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .copy-toast {
@@ -1772,6 +1814,104 @@ html:has(.site-body) {
     font-size: clamp(2.1rem, 10vw, 2.8rem);
   }
 }
+.faq-block {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.faq-block--narrow {
+  max-width: 28rem;
+}
+
+.faq-block h2 {
+  margin: 0;
+  color: var(--site-cream);
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+.faq-block a {
+  color: var(--site-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.faq-block > p {
+  margin: 0.35rem 0 0;
+  color: var(--site-muted);
+  font-size: 0.84rem;
+  line-height: 1.8;
+}
+
+.faq-block > .faq-list + p {
+  margin-top: 1rem;
+}
+
+.faq-list {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  interpolate-size: allow-keywords;
+}
+
+.faq-item {
+  padding: 0 0.95rem;
+  border: 1px solid rgb(242 236 214 / 14%);
+  border-radius: 14px;
+  background: rgb(11 61 48 / 26%);
+}
+
+.faq-item summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  color: var(--site-cream);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.6;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  color: var(--site-gold);
+  font-weight: 400;
+}
+
+.faq-item[open] summary::after {
+  content: "−";
+}
+
+.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  content-visibility: hidden;
+  transition: block-size 0.28s ease, content-visibility 0.28s allow-discrete;
+}
+
+.faq-item[open]::details-content {
+  block-size: auto;
+  content-visibility: visible;
+}
+
+.faq-item p {
+  margin: 0 0 0.95rem;
+  color: var(--site-muted);
+  font-size: 0.9rem;
+  line-height: 1.9;
+}
+
   </style>
 </head>
 <body class="site-body">
@@ -1800,44 +1940,59 @@ html:has(.site-body) {
 
       <p class="legal-lead">奶蛙（naiwa）常见问题整理：打开作品、查看排行榜、使用定位功能和了解广告时最常遇到的那些疑问。这个系列目前有五个作品，都在微信里运行，网页只负责介绍和入口。没有找到答案时，可以直接发邮件联系我们。</p>
 
-      <h2>奶蛙小游戏（naiwa）能直接在网页上玩吗？</h2>
-      <p>不能。本站是奶蛙（naiwa）系列作品的介绍页，游戏本体运行在微信小游戏和微信小程序里，网页不会加载游戏文件。可以从作品页扫码，或在微信中搜索“奶蛙跳跳跳”“奶蛙大笑”“奶蛙贪吃蛙”“奶蛙颜色大挑战”“附近公厕指引”。五个作品的入口整理在<a href="/game-guide">奶蛙系列游戏指南</a>。</p>
-
-      <h2>奶蛙小游戏二维码扫不开、打不开怎么办？</h2>
-      <p>先把作品页的二维码保存到相册，再打开微信“扫一扫”，从相册中选择这张图片；也可以复制作品名称，在微信搜索框中搜索小程序。若仍然无法打开，请先更新微信、切换网络再试。</p>
-      <p>在电脑浏览器里直接长按或扫描二维码，常会因为未登录微信而失败，这不代表二维码已经失效。<a href="/milk-frog-jump">奶蛙跳跳跳</a>等作品页都提供了可复制的作品名称。</p>
-
-      <h2>微信里搜不到奶蛙小游戏怎么办？</h2>
-      <p>请确认名称与作品页完全一致，不要多字、少字或使用相似名称，例如把“奶蛙跳跳跳”写成“奶蛙跳一跳”。微信搜索结果可能受地区、版本和账号状态影响。</p>
-      <p>如果确认名称无误仍然搜不到，请把作品名称和截图发到我们的邮箱。各作品的准确名称见<a href="/game-guide">游戏指南</a>。</p>
-
-      <h2>奶蛙排行榜为什么显示“奶蛙”加一串字符？</h2>
-      <p>排行榜使用服务端生成的匿名昵称，例如“奶蛙”加一小段字符。这个昵称不包含微信昵称、真实姓名或完整的 openid，同一账号会保持稳定，方便区分不同玩家。</p>
-      <p>排行榜只展示前 6 名，同分时并列同名次。具体的数据范围和保存方式见<a href="/privacy">隐私政策</a>。</p>
-
-      <h2>换手机或删除微信后，奶蛙跳跳跳的成绩还在吗？</h2>
-      <p>成绩与微信账号对应的匿名标识关联，不使用手机号登录。只要仍使用同一个微信账号，通常可以继续读取原有成绩；更换微信账号后不会自动合并两个账号的数据。</p>
-      <p>如果排行榜出现明显异常，请通过邮箱联系我们，并说明问题出现的时间和大致分数。玩法与计分说明见<a href="/milk-frog-jump">奶蛙跳跳跳</a>。</p>
-
-      <h2>附近公厕指引为什么要开定位？不开定位还能用吗？</h2>
-      <p>定位用于查找当前位置附近的公共厕所、计算距离并规划导航。若不允许微信获取位置，相关功能可能无法使用；本站网页本身不会读取你的位置，也不会把位置写入网页表单。</p>
-      <p>公厕的开放时间和位置由小程序调用的地图与位置服务提供，实际情况可能因场所管理或数据更新而变化，请以现场标识为准。使用步骤见<a href="/toilet-guide">附近公厕指引</a>。</p>
-
-      <h2>奶蛙小游戏页面上的广告是哪里来的？</h2>
-      <p>本站正在申请接入 Google AdSense。广告启用后，页面可能出现由 Google 或其合作伙伴提供的广告。本站不参与具体广告的定向，也不会把用户邮件内容提供给广告商。</p>
-      <p>个性化广告、Cookie 和退出方式，见<a href="/cookies">Cookie 与广告说明</a>。</p>
-
-      <h2>可以转载奶蛙小游戏合集的文章或图片吗？</h2>
-      <p>除特别注明外，站点文字、页面设计和奶蛙相关内容受版权保护。分享页面链接通常没有问题；批量转载、商业使用、二次发布或去除署名之前，请先通过邮箱取得书面许可。</p>
-      <p>具体的使用规则见<a href="/terms">服务条款</a>。</p>
-
-      <h2>页面链接失效或内容写错了怎么反馈？</h2>
-      <p>请把页面地址、错误位置、设备信息和截图发送到 <a href="mailto:2939561428@qq.com">2939561428@qq.com</a>。我们核实后会尽快修正。涉及排行榜数据时，请说明出现问题的日期和大致时间。</p>
-      <p>其他合作与纠错方式见<a href="/contact">联系页面</a>。</p>
-
-      <h2>本站会收集手机号或通讯录吗？</h2>
-      <p>不会。本站没有账号系统和在线表单，不会要求手机号、通讯录、身份证或支付信息。排行榜服务仅处理实现功能所需的匿名标识、最高分和破纪录时间。</p>
-      <p>完整的数据说明见<a href="/privacy">隐私政策</a>。</p>
+      <section class="faq-block">
+        <div class="faq-list">
+          <details class="faq-item reveal" data-delay="160">
+            <summary>奶蛙小游戏（naiwa）能直接在网页上玩吗？</summary>
+            <p>不能。本站是奶蛙（naiwa）系列作品的介绍页，游戏本体运行在微信小游戏和微信小程序里，网页不会加载游戏文件。可以从作品页扫码，或在微信中搜索“奶蛙跳跳跳”“奶蛙大笑”“奶蛙贪吃蛙”“奶蛙颜色大挑战”“附近公厕指引”。五个作品的入口整理在<a href="/game-guide">奶蛙系列游戏指南</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="230">
+            <summary>奶蛙小游戏二维码扫不开、打不开怎么办？</summary>
+            <p>先把作品页的二维码保存到相册，再打开微信“扫一扫”，从相册中选择这张图片；也可以复制作品名称，在微信搜索框中搜索小程序。若仍然无法打开，请先更新微信、切换网络再试。</p>
+            <p>在电脑浏览器里直接长按或扫描二维码，常会因为未登录微信而失败，这不代表二维码已经失效。<a href="/milk-frog-jump">奶蛙跳跳跳</a>等作品页都提供了可复制的作品名称。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="300">
+            <summary>微信里搜不到奶蛙小游戏怎么办？</summary>
+            <p>请确认名称与作品页完全一致，不要多字、少字或使用相似名称，例如把“奶蛙跳跳跳”写成“奶蛙跳一跳”。微信搜索结果可能受地区、版本和账号状态影响。</p>
+            <p>如果确认名称无误仍然搜不到，请把作品名称和截图发到我们的邮箱。各作品的准确名称见<a href="/game-guide">游戏指南</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="370">
+            <summary>奶蛙排行榜为什么显示“奶蛙”加一串字符？</summary>
+            <p>排行榜使用服务端生成的匿名昵称，例如“奶蛙”加一小段字符。这个昵称不包含微信昵称、真实姓名或完整的 openid，同一账号会保持稳定，方便区分不同玩家。</p>
+            <p>排行榜只展示前 6 名，同分时并列同名次。具体的数据范围和保存方式见<a href="/privacy">隐私政策</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="440">
+            <summary>换手机或删除微信后，奶蛙跳跳跳的成绩还在吗？</summary>
+            <p>成绩与微信账号对应的匿名标识关联，不使用手机号登录。只要仍使用同一个微信账号，通常可以继续读取原有成绩；更换微信账号后不会自动合并两个账号的数据。</p>
+            <p>如果排行榜出现明显异常，请通过邮箱联系我们，并说明问题出现的时间和大致分数。玩法与计分说明见<a href="/milk-frog-jump">奶蛙跳跳跳</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="510">
+            <summary>附近公厕指引为什么要开定位？不开定位还能用吗？</summary>
+            <p>定位用于查找当前位置附近的公共厕所、计算距离并规划导航。若不允许微信获取位置，相关功能可能无法使用；本站网页本身不会读取你的位置，也不会把位置写入网页表单。</p>
+            <p>公厕的开放时间和位置由小程序调用的地图与位置服务提供，实际情况可能因场所管理或数据更新而变化，请以现场标识为准。使用步骤见<a href="/toilet-guide">附近公厕指引</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="580">
+            <summary>奶蛙小游戏页面上的广告是哪里来的？</summary>
+            <p>本站正在申请接入 Google AdSense。广告启用后，页面可能出现由 Google 或其合作伙伴提供的广告。本站不参与具体广告的定向，也不会把用户邮件内容提供给广告商。</p>
+            <p>个性化广告、Cookie 和退出方式，见<a href="/cookies">Cookie 与广告说明</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="650">
+            <summary>可以转载奶蛙小游戏合集的文章或图片吗？</summary>
+            <p>除特别注明外，站点文字、页面设计和奶蛙相关内容受版权保护。分享页面链接通常没有问题；批量转载、商业使用、二次发布或去除署名之前，请先通过邮箱取得书面许可。</p>
+            <p>具体的使用规则见<a href="/terms">服务条款</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="720">
+            <summary>页面链接失效或内容写错了怎么反馈？</summary>
+            <p>请把页面地址、错误位置、设备信息和截图发送到 <a href="mailto:2939561428@qq.com">2939561428@qq.com</a>。我们核实后会尽快修正。涉及排行榜数据时，请说明出现问题的日期和大致时间。</p>
+            <p>其他合作与纠错方式见<a href="/contact">联系页面</a>。</p>
+          </details>
+          <details class="faq-item reveal" data-delay="790">
+            <summary>本站会收集手机号或通讯录吗？</summary>
+            <p>不会。本站没有账号系统和在线表单，不会要求手机号、通讯录、身份证或支付信息。排行榜服务仅处理实现功能所需的匿名标识、最高分和破纪录时间。</p>
+            <p>完整的数据说明见<a href="/privacy">隐私政策</a>。</p>
+          </details>
+        </div>
+      </section>
     </article>
   </main>
 
