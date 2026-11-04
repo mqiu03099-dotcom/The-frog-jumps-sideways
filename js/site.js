@@ -6,13 +6,29 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 const header = document.querySelector('.site-header, .detail-header');
 
 if (header) {
+  let headerFrame = 0;
+  let headerValue = -1;
+
   const updateHeader = () => {
-    const progress = Math.min(Math.max(window.scrollY / 420, 0), 1);
+    headerFrame = 0;
+    const progress = Math.round(Math.min(Math.max(window.scrollY / 420, 0), 1) * 50) / 50;
+
+    if (progress === headerValue) {
+      return;
+    }
+
+    headerValue = progress;
     document.documentElement.style.setProperty('--header-progress', progress);
   };
 
-  requestAnimationFrame(updateHeader);
-  window.addEventListener('scroll', updateHeader, { passive: true });
+  const scheduleHeader = () => {
+    if (!headerFrame) {
+      headerFrame = requestAnimationFrame(updateHeader);
+    }
+  };
+
+  scheduleHeader();
+  window.addEventListener('scroll', scheduleHeader, { passive: true });
 }
 
 if (reduceMotion || !('IntersectionObserver' in window)) {
