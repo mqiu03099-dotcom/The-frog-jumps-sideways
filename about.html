@@ -46,9 +46,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1787,7 +1787,7 @@ html:has(.site-body) {
 
       <h2>这个站点是什么</h2>
       <p>本站是一个静态介绍页，用来集中展示奶蛙系列作品的名称、封面、玩法说明和打开方式。游戏本身运行在微信小游戏或微信小程序中，网页不直接运行游戏，也不需要注册本站账号。</p>
-      <p>你可以在每个作品页找到微信小程序二维码、可复制的作品名称和简要玩法。部分作品还提供微信文章的详细介绍。所有页面都可以在不登录的情况下浏览。</p>
+      <p>你可以在作品页找到可复制的作品名称和简要玩法，其中四个作品页还提供可扫描的小程序二维码；跳跳跳目前只提供名称搜索，入口差异写在<a href="/articles/entry-guide">五款入口说明</a>里。部分作品还提供微信文章的详细介绍。所有页面都可以在不登录的情况下浏览。</p>
 
       <h2>收录的作品</h2>
       <ul>
@@ -1856,6 +1856,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>

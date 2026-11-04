@@ -81,9 +81,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1838,6 +1838,14 @@ html:has(.site-body) {
   margin-top: 1rem;
 }
 
+.faq-block > h2 + p {
+  margin-top: 0.9rem;
+}
+
+.faq-block > p + p {
+  margin-top: 0.9rem;
+}
+
 .faq-list {
   display: grid;
   gap: 0.6rem;
@@ -1989,6 +1997,13 @@ html:has(.site-body) {
         <div class="entry-signature">—— 奶蛙大笑</div>
       </section>
       <section class="faq-block faq-block--narrow">
+        <h2 class="reveal">进一步了解奶蛙大笑</h2>
+        <p class="reveal">奶蛙大笑把内容按使用场景分开：聊天里用的是表情包和动图，个人主页可以换头像，电脑端则更适合壁纸。不同内容的尺寸、格式和数量会随整理进度变化，作品页只负责说明方向，实际可保存的文件以小程序内当次展示为准。</p>
+        <p class="reveal">保存之前先确认用途。发给朋友、放在自己的聊天窗口里，属于日常个人使用；批量转载到公众号、做成商品、印在物料上或再次发布，则需要先取得授权。拿不准时，最稳妥的做法是通过站点联系页说明具体用途。</p>
+        <p class="reveal">壁纸和头像还要注意裁切。同一张图在手机上看着完整，换到电脑桌面或圆形头像框里，边缘可能会被裁掉。保存后先预览一次，确认主体和文字没有被截断，再设为背景。</p>
+        <p class="reveal">更多关于表情、头像和壁纸的使用边界，可以读<a href="/articles/milk-frog-laugh">奶蛙大笑内容说明</a>；站点如何标注来源和核对日期，则写在<a href="/editorial">内容与核对</a>页。</p>
+      </section>
+      <section class="faq-block faq-block--narrow">
         <h2 class="reveal">常见问题</h2>
         <div class="faq-list reveal">
           <details class="faq-item">
@@ -2047,6 +2062,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>

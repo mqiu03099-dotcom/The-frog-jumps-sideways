@@ -33,7 +33,7 @@
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="奶蛙跳跳跳横跳小游戏">
   <meta property="article:published_time" content="2026-11-03T00:00:00+08:00">
-  <meta property="article:modified_time" content="2026-11-03T00:00:00+08:00">
+  <meta property="article:modified_time" content="2026-11-04T00:00:00+08:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="奶蛙跳跳跳怎么玩？左右横跳的节奏、障碍与高分思路">
   <meta
@@ -69,8 +69,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1812,6 +1813,19 @@ html:has(.site-body) {
   color: var(--site-cream);
 }
 
+.article-byline {
+  margin: 0.7rem 0 0;
+  color: rgb(242 236 214 / 52%);
+  font-size: 0.78rem;
+  line-height: 1.9;
+}
+
+.article-byline a {
+  color: var(--site-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .article-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1898,13 +1912,13 @@ html:has(.site-body) {
       "description": "从点击左右两侧、判断下一块台阶方向，到避开障碍物和保持节奏，整理奶蛙跳跳跳的玩法要点与高分练习方法。",
       "image": "https://milkyfrog.vip/images/cover.jpg",
       "datePublished": "2026-11-03T00:00:00+08:00",
-      "dateModified": "2026-11-03T00:00:00+08:00",
+      "dateModified": "2026-11-04T00:00:00+08:00",
       "inLanguage": "zh-CN",
       "articleSection": "玩法笔记",
       "author": {
         "@type": "Organization",
-        "name": "奶蛙小游戏合集",
-        "url": "https://milkyfrog.vip/"
+        "name": "奶蛙编辑部",
+        "url": "https://milkyfrog.vip/editorial"
       },
       "publisher": {
         "@type": "Organization",
@@ -1959,6 +1973,7 @@ html:has(.site-body) {
       <article class="legal-paper">
         <p class="site-eyebrow">MILK FROG · SIDE JUMP</p>
         <h1>奶蛙跳跳跳怎么玩？左右横跳的节奏、障碍与高分思路</h1>
+        <p class="article-byline">作者：<a href="/editorial">奶蛙编辑部</a> · 最后核对：2026年11月4日</p>
         <p class="article-meta"><span>2026年11月3日</span><span>玩法笔记</span><span>约 5 分钟阅读</span></p>
         <p class="article-lead">奶蛙（naiwa）跳跳跳把操作压到最简单的两个动作：点左边，或者点右边。真正要练的不是手速，而是判断下一块台阶的方向，以及在连续横跳里保持同一种节奏。</p>
 
@@ -1984,6 +1999,14 @@ html:has(.site-body) {
           </ul>
           <p>分数高不高，往往不取决于某一跳有多快，而取决于能不能在几十次判断里保持同一种稳定。先做到不跳错，再追求更远的距离，通常会比一开始就抢速度更有效。</p>
 
+          <h2>机制速查：几个可以直接核对的数字</h2>
+          <ul>
+            <li>初始容错是 30 帧；分数低于 281 时，每 10 分减少 1 帧；281 分以后固定为 2 帧。</li>
+            <li>每一次跳跃动画固定 26 帧。高分段变短的，是两次点击之间的等待上限，不是跳跃动作本身。</li>
+            <li>障碍按 50%、20%、20%、10% 的权重生成 0 到 3 级；当前版本的失败判定仍然看台阶方向。</li>
+            <li>排行榜公开列表固定 6 行，同分并列，只有刷新历史最高分才会写库。</li>
+          </ul>
+          <p>这些数字分别来自难度计算、跳跃动画、障碍生成和排行榜接口。想看得更细，可以继续读<a href="/articles/milk-frog-jump-difficulty">难度曲线</a>、<a href="/articles/milk-frog-jump-obstacles">障碍机制</a>和<a href="/articles/leaderboard-privacy">排行榜说明</a>。</p>
           <h2>适合什么时候打开</h2>
           <p>奶蛙跳跳跳不需要长篇教程，适合等车、排队或者工作间隙的几分钟。打开就能跳，一轮结束也很快，不会占用太多时间。</p>
           <p>如果你喜欢这种“规则简单、判断密集”的小游戏，可以把它和<a href="/articles/milk-frog-greedy">奶蛙贪吃蛙</a>、<a href="/articles/milk-frog-color">奶蛙颜色大挑战</a>放在一起轮换着玩，都是很短的一局。</p>
@@ -1992,7 +2015,7 @@ html:has(.site-body) {
           <p>在微信里搜索小程序「奶蛙跳跳跳」即可进入。也可以先看看<a href="/milk-frog-jump">奶蛙跳跳跳作品页</a>，了解基本介绍和入口。</p>
 
           <div class="article-note">
-            <p>本文的玩法说明依据官网公开介绍整理，具体界面、障碍规则和计分方式以小程序内实际版本为准。</p>
+            <p>本文的玩法说明依据当前版本源码与站点公开说明整理，具体界面、障碍规则和计分方式以小程序内实际版本为准。</p>
           </div>
         </div>
 
@@ -2046,6 +2069,7 @@ html:has(.site-body) {
       </div>
       <nav class="site-footer-links" aria-label="站点信息">
         <a href="/about">关于</a>
+        <a href="/editorial">内容与核对</a>
         <a href="/game-guide">游戏指南</a>
         <a href="/faq">常见问题</a>
         <a href="/contact">联系</a>

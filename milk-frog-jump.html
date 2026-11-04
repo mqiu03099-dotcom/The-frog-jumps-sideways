@@ -81,9 +81,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1939,7 +1939,7 @@ html:has(.site-body) {
           >
         </div>
 
-        <div class="entry-caption">长按识别或使用微信扫一扫</div>
+        <div class="entry-caption">游戏封面（不是二维码）</div>
 
         <div class="entry-actions">
           <button class="secondary-button" type="button" data-copy="奶蛙跳跳跳" data-copy-label="名称">
@@ -1952,7 +1952,7 @@ html:has(.site-body) {
             <svg class="entry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M12 4v10m0 0 4-4m-4 4-4-4M5 17v1.2A1.8 1.8 0 0 0 6.8 20h10.4a1.8 1.8 0 0 0 1.8-1.8V17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            保存二维码
+            保存封面
           </a>
         </div>
 
@@ -1974,7 +1974,7 @@ html:has(.site-body) {
           </button>
         </div>
 
-        <a class="primary-button entry-play" href="https://mp.weixin.qq.com/s/4uPRrI1MPkcqK2q0ZaxWmA" target="_blank" rel="noopener noreferrer">点击即玩，开启挑战</a>
+        <a class="primary-button entry-play" href="/articles/entry-guide">查看入口与玩法说明</a>
         <a class="secondary-button secondary-button--3d entry-more" href="https://mp.weixin.qq.com/s/naBsizu0sPY2QGNZzWdPTw" target="_blank" rel="noopener noreferrer">表情包点这里</a>
 
         <div class="entry-rules">
@@ -1989,11 +1989,20 @@ html:has(.site-body) {
         <div class="entry-signature">—— 奶蛙跳跳跳</div>
       </section>
       <section class="faq-block faq-block--narrow">
+        <h2 class="reveal">关于奶蛙跳跳跳</h2>
+        <div class="reveal">
+          <p>跳跳跳的难度不是靠缩短跳跃动画，而是缩短两次点击之间的等待上限。当前版本的容错从 30 帧开始，每 10 分减少 1 帧，281 分以后固定为 2 帧；每次跳跃本身仍然是 26 帧。</p>
+          <p>台阶的障碍值按 50%、20%、20%、10% 的权重生成 0 到 3 级。障碍会改变画面和失败动画，但这一轮是否结束，判定看的是你点击的方向与下一块台阶是否一致。想了解具体算法，可以读<a href="/articles/milk-frog-jump-difficulty">难度曲线</a>和<a href="/articles/milk-frog-jump-obstacles">障碍生成说明</a>。</p>
+          <p>排行榜只保存历史最高分，公开列表固定 6 行，同分并列；昵称由匿名标识派生，不直接展示 openid。数据写入和删除边界写在<a href="/articles/leaderboard-privacy">排行榜说明</a>里。</p>
+          <p>本页展示的图片是游戏封面，不是可扫描的二维码；跳跳跳目前也没有经过核验的短链。请复制名称“奶蛙跳跳跳”，到微信里搜索小程序，入口排查见<a href="/articles/entry-guide">五款入口说明</a>。</p>
+        </div>
+      </section>
+      <section class="faq-block faq-block--narrow">
         <h2 class="reveal">常见问题</h2>
         <div class="faq-list reveal">
           <details class="faq-item">
             <summary>跳跳跳的分数怎么算？</summary>
-            <p>连续跳过更多台阶分数更高；跳错方向或撞上障碍物，这一轮就结束。</p>
+            <p>连续跳过更多台阶分数更高；点错方向或超时，这一轮就结束。</p>
           </details>
           <details class="faq-item">
             <summary>成绩多久同步一次？</summary>
@@ -2047,6 +2056,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>

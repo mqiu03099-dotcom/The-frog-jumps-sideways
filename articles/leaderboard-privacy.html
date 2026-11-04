@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d30">
+  <meta name="robots" content="index, follow">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="application-name" content="奶蛙小游戏合集">
+  <meta name="author" content="奶蛙编辑部">
+  <meta name="description" content="奶蛙跳跳跳排行榜只保存最高分，列表固定 6 行；同分并列、昵称由匿名标识生成、token 有效期 7 天。本文按源码说明数据怎么写入、怎么排序、怎么删除。">
+  <meta name="keywords" content="奶蛙跳跳跳,排行榜,最高分,同分并列,隐私,匿名昵称,openid,奶蛙,naiwa">
+  <link rel="canonical" href="https://milkyfrog.vip/articles/leaderboard-privacy">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="奶蛙小游戏合集">
+  <meta property="og:title" content="奶蛙跳跳跳排行榜是怎么工作的：只存最高分，也只显示 6 行">
+  <meta property="og:description" content="从写入、排序、同分并列到匿名昵称和删除请求，拆开排行榜的数据边界。">
+  <meta property="og:url" content="https://milkyfrog.vip/articles/leaderboard-privacy">
+  <meta property="og:image" content="https://milkyfrog.vip/images/cover.jpg">
+  <meta property="og:image:secure_url" content="https://milkyfrog.vip/images/cover.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="奶蛙跳跳跳游戏封面">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="奶蛙跳跳跳排行榜是怎么工作的：只存最高分，也只显示 6 行">
+  <meta name="twitter:description" content="从写入、排序、同分并列到匿名昵称和删除请求，拆开排行榜的数据边界。">
+  <meta name="twitter:image" content="https://milkyfrog.vip/images/cover.jpg">
+  <meta name="twitter:image:alt" content="奶蛙跳跳跳游戏封面">
+  <link rel="icon" type="image/png" href="/images/favicon-64.png?v=20261103">
+  <link rel="preload" as="image" href="/images/forest-sky-bg.webp">
+  <link rel="stylesheet" href="/css/article.css?v=20261104b">
+  <title>奶蛙跳跳跳排行榜是怎么工作的：只存最高分，也只显示 6 行 | 奶蛙小游戏合集</title>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "奶蛙跳跳跳排行榜是怎么工作的：只存最高分，也只显示 6 行",
+      "description": "按当前版本源码说明奶蛙跳跳跳排行榜的写入、排序、同分并列、匿名昵称与删除边界。",
+      "image": "https://milkyfrog.vip/images/cover.jpg",
+      "datePublished": "2026-11-04T00:00:00+08:00",
+      "dateModified": "2026-11-04T00:00:00+08:00",
+      "inLanguage": "zh-CN",
+      "articleSection": "数据说明",
+      "author": {
+        "@type": "Organization",
+        "name": "奶蛙编辑部",
+        "url": "https://milkyfrog.vip/editorial"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "奶蛙小游戏合集",
+        "url": "https://milkyfrog.vip/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://milkyfrog.vip/images/site-logo.png",
+          "width": 128,
+          "height": 128
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://milkyfrog.vip/articles/leaderboard-privacy"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://milkyfrog.vip/" },
+        { "@type": "ListItem", "position": 2, "name": "文章", "item": "https://milkyfrog.vip/articles" },
+        { "@type": "ListItem", "position": 3, "name": "排行榜与数据边界", "item": "https://milkyfrog.vip/articles/leaderboard-privacy" }
+      ]
+    }
+  </script>
+</head>
+<body class="site-body">
+  <div class="site-orbs" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <header class="site-header">
+    <a class="site-brand" href="/" aria-label="奶蛙小游戏合集首页">
+      <img class="site-brand-mark" src="/images/site-logo.webp" srcset="/images/site-logo-34.webp?v=20261103-33 34w, /images/site-logo.webp 128w" sizes="34px" alt="奶蛙小游戏合集" width="34" height="34">
+      <span class="site-brand-copy"><strong>奶蛙</strong><span>小游戏合集</span></span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="/articles" aria-current="page">文章</a>
+      <a href="/#works">作品</a>
+      <a href="/#about">关于</a>
+    </nav>
+  </header>
+
+  <div class="site-container">
+    <main class="article-page">
+      <a class="article-back" href="/articles">返回文章列表</a>
+      <article class="legal-paper">
+        <p class="site-eyebrow">MILK FROG · LEADERBOARD</p>
+        <h1>奶蛙跳跳跳排行榜是怎么工作的：只存最高分，也只显示 6 行</h1>
+        <p class="article-byline">作者：<a href="/editorial">奶蛙编辑部</a> · 最后核对：2026年11月4日</p>
+        <p class="article-meta"><span>2026年11月4日</span><span>数据说明</span><span>约 7 分钟阅读</span></p>
+        <p class="article-lead">排行榜看起来只是几行昵称和分数，背后其实有几个明确的选择：只保存历史最高分、列表固定 6 行、同分并列、昵称不直接使用微信资料。把这些边界写清楚，比只放一句“成绩会上榜”更有用，也方便你判断哪些信息会被公开。</p>
+
+        <div class="article-body">
+          <h2>只保存最高分，不保存每一局</h2>
+          <p>当前版本的数据表以微信登录返回的 openid 作为主键，每个用户只有一行记录，字段包括昵称、最高分和达成最高分的时间。交分时执行的是“插入或更新”：只有新分数严格高于旧最高分时，才会更新分数和时间；同分或更低分不会产生写入。</p>
+          <p>这意味着排行榜展示的是每个人历史最好的一局，而不是最近一局。你后来打出更低的分数，不会把榜上的成绩拉下来；只有真正刷新纪录，才会替换。</p>
+          <table class="article-table">
+            <caption>一次交分会发生什么</caption>
+            <thead>
+              <tr><th>情况</th><th>数据库行为</th><th>结果</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>第一次交分</td><td>插入一行</td><td>建立最高分记录</td></tr>
+              <tr><td>新分数更高</td><td>更新最高分和时间</td><td>榜上成绩替换</td></tr>
+              <tr><td>新分数相同或更低</td><td>不写入</td><td>保留原最高分</td></tr>
+              <tr><td>请求失败</td><td>本地不更新</td><td>下次超过本地最高分时还能再报</td></tr>
+            </tbody>
+          </table>
+
+          <h2>客户端先判断，服务端再判断一次</h2>
+          <p>客户端只在“本局分数超过本地保存的最高分”时才发起上报。上报成功后，服务端返回确认的最高分，客户端再把它写回本地；如果请求失败，本地不会提前改分，所以下一局仍有机会重试。服务端并不信任客户端传来的“这是新纪录”，而是用自己的旧值再比较一次，只有更高才写库。</p>
+          <p>这层重复判断的意义是防止两种情况：一是客户端本地记录过期，二是有人直接调用接口提交低分或重复分。它不能替代完整的反作弊系统，但至少保证“榜上不会因为一次低分请求而倒退”。</p>
+
+          <h2>榜单为什么是 6 行</h2>
+          <p>服务端把列表上限固定为 6，查询按“最高分从高到低、达成时间从早到晚、openid 从小到大”排序。前两个条件决定名次，第三个条件只是让同分同时间的顺序保持稳定，避免每次刷新时同样两行来回换位置。</p>
+          <p>同分采用并列名次：如果前两名的分数相同，它们都显示第 1 名；下一名从第 3 名开始，而不是第 2 名。这是竞赛排名（1、1、3），不是密集排名（1、1、2）。榜上看到两个第 1 名时，不必怀疑显示错误。</p>
+          <p>如果你不在前 6 行，服务端仍会单独算出你的名次和最高分，放在“我的成绩”里返回；榜单主体不会因此扩成 7 行或更多。也就是说，“固定 6 行”说的是公开列表，不是“只认前 6 个人”。</p>
+
+          <h2>昵称是怎么来的</h2>
+          <p>榜上的昵称不是微信昵称，也不是用户自己输入的名字。服务端把 openid 做 SHA-256，取十六进制结果的前 8 位，拼成“奶蛙”加 8 位字符。同一个 openid 每次都会得到同一个昵称，所以成绩能稳定对应到同一个人；但昵称本身不包含 openid 原文。</p>
+          <p>这仍然是一种可关联的标识：如果同一个人多次出现，别人能看出这些成绩属于同一个昵称。它不是完全匿名，只是避免直接展示微信身份标识。排行榜公开的内容只有昵称和最高分，列表接口不返回 openid。</p>
+
+          <h2>登录 token 和 7 天有效期</h2>
+          <p>小程序通过微信登录拿到 openid 后，服务端签发一个带过期时间的 token，有效期是 7 天。客户端把 token 存在本地，之后交分和查榜都带上它；token 过期或签名不对时，接口按未登录处理，客户端会清掉缓存并重新登录一次。</p>
+          <p>登录本身不写数据库，只有第一次交分时才创建玩家记录。这样单纯打开游戏、看看榜单，不会先留下一条空记录。</p>
+
+          <h2>想删除或更正自己的记录</h2>
+          <p>如果你希望删除排行榜里的记录，可以通过<a href="/contact">联系页面</a>说明来意。由于榜上没有公开 openid，运营者需要能定位到对应记录的信息，例如你的微信小程序身份、榜上昵称和大致成绩。删除后，该昵称和最高分不会再出现在公开列表中；再次游玩并交分时会重新建立记录。</p>
+          <p>如果你只是不想公开成绩，最直接的方式是停止交分或不再打开排行榜，而不是期待一个“隐藏但仍保留”的开关——当前版本的公开列表没有提供这种状态。涉及数据范围、保存期限和删除流程的正式说明，以<a href="/privacy">隐私政策</a>为准。</p>
+
+          <div class="article-note">
+            <p>本文依据当前版本的 <code>web/worker/api.js</code>、<code>web/db/schema.sql</code> 和客户端排行榜逻辑整理。名次、昵称和留存行为可能随版本调整；实际以线上接口和隐私政策为准。</p>
+          </div>
+        </div>
+
+        <nav class="article-related" aria-label="相关文章">
+          <h2>继续阅读</h2>
+          <ul>
+            <li><a href="/articles/milk-frog-jump-difficulty">奶蛙跳跳跳的难度是怎么加上去的：从 30 帧到 2 帧</a></li>
+            <li><a href="/articles/milk-frog-jump-obstacles">奶蛙跳跳跳的障碍是怎么生成的：50% 没有障碍，20/20/10 分布</a></li>
+            <li><a href="/articles/milk-frog-jump">奶蛙跳跳跳怎么玩？左右横跳的节奏、障碍与高分思路</a></li>
+          </ul>
+        </nav>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-main">
+        <div class="site-footer-brand-group">
+          <div class="site-footer-brand">
+            <img class="site-brand-mark" src="/images/site-logo.webp" srcset="/images/site-logo-34.webp?v=20261103-33 34w, /images/site-logo.webp 128w" sizes="34px" alt="奶蛙小游戏合集" width="29" height="29">
+            <span>奶蛙小游戏合集</span>
+          </div>
+          <span class="site-footer-copy">© 2026 Milky Frog</span>
+        </div>
+        <div class="site-footer-contact">
+          <div class="site-footer-contact-row">
+            <button type="button" class="site-footer-item" data-copy="奶蛙颜色大挑战" data-copy-label="公众号名称" title="点击复制公众号名称">
+              <svg class="site-footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z" stroke-linejoin="round"/>
+                <circle cx="8.6" cy="11.4" r="0.9" fill="currentColor" stroke="none"/>
+                <circle cx="15.4" cy="11.4" r="0.9" fill="currentColor" stroke="none"/>
+              </svg>
+              <span>微信公众号：奶蛙颜色大挑战</span>
+            </button>
+            <button type="button" class="site-footer-item" data-copy="2939561428@qq.com" data-copy-label="邮箱地址" title="点击复制邮箱地址">
+              <svg class="site-footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <rect x="2.8" y="5" width="18.4" height="14" rx="2.4"/>
+                <path d="m3.6 6.6 8.4 6.3 8.4-6.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>邮箱：2939561428@qq.com</span>
+            </button>
+          </div>
+          <div class="site-footer-contact-row">
+            <button type="button" class="site-footer-item" data-copy="63669285039" data-copy-label="小红书 ID" title="点击复制小红书 ID">
+              <svg class="site-footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5.2 5.2A2.2 2.2 0 0 1 7.4 3h9.4A2.2 2.2 0 0 1 19 5.2v15.3l-6.9-3.6-6.9 3.6V5.2Z" stroke-linejoin="round"/>
+                <path d="M8.6 7.6h6.8M8.6 10.6h4.6" stroke-linecap="round"/>
+              </svg>
+              <span>小红书：想谈恋爱了（63669285039）</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <nav class="site-footer-links" aria-label="站点信息">
+        <a href="/about">关于</a>
+        <a href="/editorial">内容与核对</a>
+        <a href="/game-guide">游戏指南</a>
+        <a href="/faq">常见问题</a>
+        <a href="/contact">联系</a>
+        <a href="/privacy">隐私政策</a>
+        <a href="/cookies">Cookie 与广告</a>
+        <a href="/terms">服务条款</a>
+      </nav>
+    </footer>
+  </div>
+  <script src="/js/site.js?v=20261103-32" defer></script>
+</body>
+</html>

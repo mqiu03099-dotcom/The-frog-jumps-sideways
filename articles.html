@@ -10,7 +10,7 @@
   <meta name="author" content="奶蛙小游戏合集">
   <meta
     name="description"
-    content="奶蛙（naiwa）文章收录五篇笔记：奶蛙跳跳跳的横跳节奏、奶蛙大笑的表情包、奶蛙贪吃蛙的闯关思路、颜色大挑战的色感练习和附近公厕指引用法。"
+    content="奶蛙（naiwa）文章收录九篇笔记：跳跳跳的横跳节奏、难度曲线、障碍生成与排行榜，贪吃蛙的闯关思路，颜色大挑战的色感练习，大笑的表情包内容，附近公厕指引用法，以及五款作品的入口说明。"
   >
   <meta
     name="keywords"
@@ -20,10 +20,10 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:site_name" content="奶蛙小游戏合集">
-  <meta property="og:title" content="奶蛙文章 - 五个小游戏的玩法与使用笔记">
+  <meta property="og:title" content="奶蛙文章 - 九篇玩法、机制与使用笔记">
   <meta
     property="og:description"
-    content="五篇文章，分别聊聊奶蛙跳跳跳、奶蛙大笑、奶蛙贪吃蛙、奶蛙颜色大挑战和附近公厕指引。"
+    content="九篇文章，聊奶蛙跳跳跳的玩法、难度、障碍和排行榜，也聊贪吃蛙、颜色大挑战、大笑、附近公厕指引与五款作品的入口。"
   >
   <meta property="og:url" content="https://milkyfrog.vip/articles">
   <meta property="og:image" content="https://milkyfrog.vip/images/cover.jpg">
@@ -33,10 +33,10 @@
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="奶蛙小游戏合集文章列表">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="奶蛙文章 - 五个小游戏的玩法与使用笔记">
+  <meta name="twitter:title" content="奶蛙文章 - 九篇玩法、机制与使用笔记">
   <meta
     name="twitter:description"
-    content="五篇文章，分别聊聊奶蛙跳跳跳、奶蛙大笑、奶蛙贪吃蛙、奶蛙颜色大挑战和附近公厕指引。"
+    content="九篇文章，聊奶蛙跳跳跳的玩法、难度、障碍和排行榜，也聊贪吃蛙、颜色大挑战、大笑、附近公厕指引与五款作品的入口。"
   >
   <meta name="twitter:image" content="https://milkyfrog.vip/images/cover.jpg">
   <meta name="twitter:image:alt" content="奶蛙小游戏合集文章列表">
@@ -67,9 +67,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1872,13 +1872,13 @@ html:has(.site-body) {
 }
 
   </style>
-  <title>奶蛙文章 - 五个小游戏的玩法与使用笔记 | 奶蛙小游戏合集</title>
+  <title>奶蛙文章 - 九篇玩法、机制与使用笔记 | 奶蛙小游戏合集</title>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": "奶蛙文章",
-      "description": "五篇文章，分别聊聊奶蛙跳跳跳、奶蛙大笑、奶蛙贪吃蛙、奶蛙颜色大挑战和附近公厕指引。",
+      "description": "九篇文章，聊奶蛙跳跳跳的玩法、难度、障碍和排行榜，也聊贪吃蛙、颜色大挑战、大笑、附近公厕指引与五款作品的入口。",
       "url": "https://milkyfrog.vip/articles",
       "inLanguage": "zh-CN",
       "publisher": {
@@ -1896,10 +1896,14 @@ html:has(.site-body) {
         "@type": "ItemList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "奶蛙跳跳跳：横跳的节奏与高分思路", "url": "https://milkyfrog.vip/articles/milk-frog-jump" },
-          { "@type": "ListItem", "position": 2, "name": "奶蛙大笑：表情包背后的轻松时刻", "url": "https://milkyfrog.vip/articles/milk-frog-laugh" },
-          { "@type": "ListItem", "position": 3, "name": "奶蛙贪吃蛙：吃果实与避障碍的闯关笔记", "url": "https://milkyfrog.vip/articles/milk-frog-greedy" },
-          { "@type": "ListItem", "position": 4, "name": "奶蛙颜色大挑战：找出那一格色差", "url": "https://milkyfrog.vip/articles/milk-frog-color" },
-          { "@type": "ListItem", "position": 5, "name": "附近公厕指引：定位、距离与导航", "url": "https://milkyfrog.vip/articles/toilet-guide" }
+          { "@type": "ListItem", "position": 2, "name": "奶蛙跳跳跳的难度是怎么加上去的", "url": "https://milkyfrog.vip/articles/milk-frog-jump-difficulty" },
+          { "@type": "ListItem", "position": 3, "name": "奶蛙跳跳跳的障碍是怎么生成的", "url": "https://milkyfrog.vip/articles/milk-frog-jump-obstacles" },
+          { "@type": "ListItem", "position": 4, "name": "奶蛙跳跳跳排行榜是怎么工作的", "url": "https://milkyfrog.vip/articles/leaderboard-privacy" },
+          { "@type": "ListItem", "position": 5, "name": "奶蛙贪吃蛙：吃果实与避障碍的闯关笔记", "url": "https://milkyfrog.vip/articles/milk-frog-greedy" },
+          { "@type": "ListItem", "position": 6, "name": "奶蛙颜色大挑战：找出那一格色差", "url": "https://milkyfrog.vip/articles/milk-frog-color" },
+          { "@type": "ListItem", "position": 7, "name": "奶蛙大笑：表情包背后的轻松时刻", "url": "https://milkyfrog.vip/articles/milk-frog-laugh" },
+          { "@type": "ListItem", "position": 8, "name": "附近公厕指引：定位、距离与导航", "url": "https://milkyfrog.vip/articles/toilet-guide" },
+          { "@type": "ListItem", "position": 9, "name": "奶蛙五款小游戏怎么进：入口说明", "url": "https://milkyfrog.vip/articles/entry-guide" }
         ]
       }
     }
@@ -1929,9 +1933,9 @@ html:has(.site-body) {
         <div class="site-section-head reveal">
           <div>
             <p class="site-eyebrow">ALL ARTICLES</p>
-            <h1 id="article-list-title">五篇小笔记</h1>
+            <h1 id="article-list-title">九篇小笔记</h1>
           </div>
-          <p>奶蛙（naiwa）系列从横跳、贪吃和认颜色，到表情包与找公厕。点开任意一篇，慢慢看。</p>
+          <p>奶蛙（naiwa）系列从横跳、贪吃和认颜色，到表情包、找公厕和入口排查。点开任意一篇，慢慢看。</p>
         </div>
 
         <ol class="work-list">
@@ -1943,36 +1947,68 @@ html:has(.site-body) {
               <span class="work-tag">玩法笔记</span>
             </a>
           </li>
-          <li class="reveal" data-delay="70">
-            <a class="work" href="/articles/milk-frog-laugh">
+          <li class="reveal" data-delay="60">
+            <a class="work" href="/articles/milk-frog-jump-difficulty">
               <span class="work-index">A02</span>
-              <span class="work-name">奶蛙大笑：表情包背后的轻松时刻</span>
-              <span class="work-desc">从聊天表情到头像、壁纸，奶蛙的笑点不靠夸张，而靠那份一本正经的认真。</span>
-              <span class="work-tag">轻松互动</span>
+              <span class="work-name">奶蛙跳跳跳的难度是怎么加上去的</span>
+              <span class="work-desc">每 10 分少一帧，280 分后固定 2 帧。拆解 30 帧到 2 帧的难度曲线与练习重点。</span>
+              <span class="work-tag">机制说明</span>
             </a>
           </li>
-          <li class="reveal" data-delay="140">
-            <a class="work" href="/articles/milk-frog-greedy">
+          <li class="reveal" data-delay="120">
+            <a class="work" href="/articles/milk-frog-jump-obstacles">
               <span class="work-index">A03</span>
+              <span class="work-name">奶蛙跳跳跳的障碍是怎么生成的</span>
+              <span class="work-desc">50% 没有障碍，20/20/10 分布。看清障碍怎么画，也看清失败判定到底看什么。</span>
+              <span class="work-tag">机制说明</span>
+            </a>
+          </li>
+          <li class="reveal" data-delay="180">
+            <a class="work" href="/articles/leaderboard-privacy">
+              <span class="work-index">A04</span>
+              <span class="work-name">奶蛙跳跳跳排行榜是怎么工作的</span>
+              <span class="work-desc">只存最高分、列表 6 行、同分并列、匿名昵称和 7 天 token，一次说清数据边界。</span>
+              <span class="work-tag">数据说明</span>
+            </a>
+          </li>
+          <li class="reveal" data-delay="240">
+            <a class="work" href="/articles/milk-frog-greedy">
+              <span class="work-index">A05</span>
               <span class="work-name">奶蛙贪吃蛙：吃果实与避障碍的闯关笔记</span>
               <span class="work-desc">方向控制、吃果实变长、避开障碍。把简单的贪吃蛇玩法玩出自己的节奏。</span>
               <span class="work-tag">闯关思路</span>
             </a>
           </li>
-          <li class="reveal" data-delay="210">
+          <li class="reveal" data-delay="300">
             <a class="work" href="/articles/milk-frog-color">
-              <span class="work-index">A04</span>
+              <span class="work-index">A06</span>
               <span class="work-name">奶蛙颜色大挑战：找出那一格色差</span>
               <span class="work-desc">规则只有一条：找出颜色不一样的那一格。聊聊观察顺序和色感练习。</span>
               <span class="work-tag">眼力挑战</span>
             </a>
           </li>
-          <li class="reveal" data-delay="280">
+          <li class="reveal" data-delay="360">
+            <a class="work" href="/articles/milk-frog-laugh">
+              <span class="work-index">A07</span>
+              <span class="work-name">奶蛙大笑：表情包背后的轻松时刻</span>
+              <span class="work-desc">从聊天表情到头像、壁纸，奶蛙的笑点不靠夸张，而靠那份一本正经的认真。</span>
+              <span class="work-tag">轻松互动</span>
+            </a>
+          </li>
+          <li class="reveal" data-delay="420">
             <a class="work" href="/articles/toilet-guide">
-              <span class="work-index">A05</span>
+              <span class="work-index">A08</span>
               <span class="work-name">附近公厕指引：定位、距离与导航</span>
               <span class="work-desc">出门在外临时找公厕，怎样定位、看距离和开放时间，再快速导航过去。</span>
               <span class="work-tag">生活工具</span>
+            </a>
+          </li>
+          <li class="reveal" data-delay="480">
+            <a class="work" href="/articles/entry-guide">
+              <span class="work-index">A09</span>
+              <span class="work-name">奶蛙五款小游戏怎么进：入口说明</span>
+              <span class="work-desc">哪些作品有已核验入口、跳跳跳为什么只能搜索，以及扫码失败先查什么。</span>
+              <span class="work-tag">使用说明</span>
             </a>
           </li>
         </ol>
@@ -2019,6 +2055,7 @@ html:has(.site-body) {
       </div>
       <nav class="site-footer-links" aria-label="站点信息">
         <a href="/about">关于</a>
+        <a href="/editorial">内容与核对</a>
         <a href="/game-guide">游戏指南</a>
         <a href="/faq">常见问题</a>
         <a href="/contact">联系</a>

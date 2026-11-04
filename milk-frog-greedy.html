@@ -81,9 +81,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1838,6 +1838,14 @@ html:has(.site-body) {
   margin-top: 1rem;
 }
 
+.faq-block > h2 + p {
+  margin-top: 0.9rem;
+}
+
+.faq-block > p + p {
+  margin-top: 0.9rem;
+}
+
 .faq-list {
   display: grid;
   gap: 0.6rem;
@@ -1989,6 +1997,13 @@ html:has(.site-body) {
         <div class="entry-signature">—— 奶蛙贪吃蛙</div>
       </section>
       <section class="faq-block faq-block--narrow">
+        <h2 class="reveal">进一步了解奶蛙贪吃蛙</h2>
+        <p class="reveal">贪吃蛙的难点不在第一颗果实，而在身体变长之后。每吃掉一颗果实，奶蛙占用的格子就会增加，原本宽敞的转向空间会一点点收紧。路线规划得越晚，能选的方向就越少。</p>
+        <p class="reveal">比较稳妥的习惯是提前留出空位：不要总贴着边缘走，也不要把自己逼进只有一条出口的角落。看到远处的果实，先判断吃完以后还有没有路可退，再决定要不要追。</p>
+        <p class="reveal">连续转弯时尤其要放慢一下。身体越长，前一段刚通过的格子越可能变成后面的障碍；眼睛不要只盯着蛙头，也要留意身后身体的位置和剩余空间。</p>
+        <p class="reveal">想换一种玩法，可以看<a href="/articles/milk-frog-greedy">贪吃蛙的路线与避障笔记</a>；如果你在跳跳跳里也遇到连续判断的问题，可以继续读<a href="/articles/milk-frog-jump-obstacles">障碍机制说明</a>，两篇都只讨论已经公开的玩法和判断方法。</p>
+      </section>
+      <section class="faq-block faq-block--narrow">
         <h2 class="reveal">常见问题</h2>
         <div class="faq-list reveal">
           <details class="faq-item">
@@ -2047,6 +2062,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>

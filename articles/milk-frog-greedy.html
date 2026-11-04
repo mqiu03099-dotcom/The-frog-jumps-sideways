@@ -33,7 +33,7 @@
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="奶蛙贪吃蛙贪吃蛇小游戏">
   <meta property="article:published_time" content="2026-11-03T00:00:00+08:00">
-  <meta property="article:modified_time" content="2026-11-03T00:00:00+08:00">
+  <meta property="article:modified_time" content="2026-11-04T00:00:00+08:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="奶蛙贪吃蛙玩法指南：吃果实、避障碍、刷新最佳成绩">
   <meta
@@ -69,8 +69,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1812,6 +1813,19 @@ html:has(.site-body) {
   color: var(--site-cream);
 }
 
+.article-byline {
+  margin: 0.7rem 0 0;
+  color: rgb(242 236 214 / 52%);
+  font-size: 0.78rem;
+  line-height: 1.9;
+}
+
+.article-byline a {
+  color: var(--site-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .article-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1898,13 +1912,13 @@ html:has(.site-body) {
       "description": "奶蛙贪吃蛙是一款轻松可爱的贪吃蛇小游戏。从方向控制、吃果实变长，到避开障碍和刷新最佳成绩，整理一份简单实用的闯关笔记。",
       "image": "https://milkyfrog.vip/images/cover.jpg",
       "datePublished": "2026-11-03T00:00:00+08:00",
-      "dateModified": "2026-11-03T00:00:00+08:00",
+      "dateModified": "2026-11-04T00:00:00+08:00",
       "inLanguage": "zh-CN",
       "articleSection": "闯关思路",
       "author": {
         "@type": "Organization",
-        "name": "奶蛙小游戏合集",
-        "url": "https://milkyfrog.vip/"
+        "name": "奶蛙编辑部",
+        "url": "https://milkyfrog.vip/editorial"
       },
       "publisher": {
         "@type": "Organization",
@@ -1959,6 +1973,7 @@ html:has(.site-body) {
       <article class="legal-paper">
         <p class="site-eyebrow">MILK FROG · GREEDY SNAKE</p>
         <h1>奶蛙贪吃蛙玩法指南：吃果实、避障碍、刷新最佳成绩</h1>
+        <p class="article-byline">作者：<a href="/editorial">奶蛙编辑部</a> · 最后核对：2026年11月4日</p>
         <p class="article-meta"><span>2026年11月3日</span><span>闯关思路</span><span>约 5 分钟阅读</span></p>
         <p class="article-lead">奶蛙（naiwa）贪吃蛙把贪吃蛇的规则做得轻巧：点击方向键，控制奶蛙前进，吃掉果实，身体变长，再去挑战更高关卡和更好的成绩。规则不复杂，难的是身体变长以后，每一步都要给下一步留出空间。</p>
 
@@ -1996,7 +2011,7 @@ html:has(.site-body) {
           <p>在微信里搜索小程序「奶蛙贪吃蛙」即可进入。也可以先访问<a href="/milk-frog-greedy">奶蛙贪吃蛙作品页</a>，查看基本介绍和入口。</p>
 
           <div class="article-note">
-            <p>本文依据官网公开介绍整理，具体地图、障碍、关卡和计分规则以小程序内实际版本为准。</p>
+            <p>本文的可核对部分依据当前版本源码与站点公开说明整理，具体地图、障碍、关卡和计分规则以小程序内实际版本为准。</p>
           </div>
         </div>
 
@@ -2050,6 +2065,7 @@ html:has(.site-body) {
       </div>
       <nav class="site-footer-links" aria-label="站点信息">
         <a href="/about">关于</a>
+        <a href="/editorial">内容与核对</a>
         <a href="/game-guide">游戏指南</a>
         <a href="/faq">常见问题</a>
         <a href="/contact">联系</a>

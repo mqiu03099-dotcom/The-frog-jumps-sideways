@@ -81,9 +81,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1838,6 +1838,14 @@ html:has(.site-body) {
   margin-top: 1rem;
 }
 
+.faq-block > h2 + p {
+  margin-top: 0.9rem;
+}
+
+.faq-block > p + p {
+  margin-top: 0.9rem;
+}
+
 .faq-list {
   display: grid;
   gap: 0.6rem;
@@ -1989,6 +1997,13 @@ html:has(.site-body) {
         <div class="entry-signature">—— 奶蛙颜色大挑战</div>
       </section>
       <section class="faq-block faq-block--narrow">
+        <h2 class="reveal">进一步了解颜色挑战</h2>
+        <p class="reveal">颜色挑战看似只看眼力，实际还受观看方式影响。手机拿得太近，视野容易被一两格填满；稍微拉远一点，让整组色块同时进入视线，反而更容易发现那一格不协调的颜色。</p>
+        <p class="reveal">开始前可以先统一屏幕条件：亮度不要过亮或过暗，关闭会改变色温的护眼模式，并避开直射屏幕的强光。比较同一组颜色时，尽量保持手机角度不变，频繁倾斜屏幕会让色差判断变得不稳定。</p>
+        <p class="reveal">如果连续几轮都找不到，不必立刻怀疑自己的色感。眼睛长时间盯着相近颜色会产生适应，先看向远处、眨几下眼，再回来重新扫一遍，通常比继续硬看更有效。</p>
+        <p class="reveal">想系统了解观察顺序和屏幕影响，可以读<a href="/articles/milk-frog-color">颜色挑战的完整玩法笔记</a>。这类结果只适合当作轻松练习，不用于视力或色觉诊断。</p>
+      </section>
+      <section class="faq-block faq-block--narrow">
         <h2 class="reveal">常见问题</h2>
         <div class="faq-list reveal">
           <details class="faq-item">
@@ -2047,6 +2062,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>

@@ -69,9 +69,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1826,6 +1826,14 @@ html:has(.site-body) {
   margin-top: 1rem;
 }
 
+.faq-block > h2 + p {
+  margin-top: 0.9rem;
+}
+
+.faq-block > p + p {
+  margin-top: 0.9rem;
+}
+
 .faq-list {
   display: grid;
   gap: 0.6rem;
@@ -1971,6 +1979,13 @@ html:has(.site-body) {
         <div class="entry-signature">—— 附近公厕指引</div>
       </section>
       <section class="faq-block faq-block--narrow">
+        <h2 class="reveal">进一步了解附近公厕指引</h2>
+        <p class="reveal">找公厕时，别只看距离。地图上的直线距离很近，实际可能隔着一条无法穿过的道路、围栏或施工区域。先用列表确认大致方向，再打开导航看步行路线，通常比直接朝最近的点走更省时间。</p>
+        <p class="reveal">开放时间也要单独确认。商场、公园、车站和街边公共设施的开放规则不同，夜间、节假日或临时维修都可能改变可用状态。带着老人或孩子出门时，优先选择路线清楚、照明正常的场所。</p>
+        <p class="reveal">到达附近后，以现场标识为准。地图数据可能滞后，入口也可能从另一侧开放；如果导航停在建筑外围，先找明显的公共设施指示牌，不要只盯着地图上的终点标记。</p>
+        <p class="reveal">定位只用于计算当前位置与附近设施，不需要注册本站账号。更多使用顺序和现场核对方法，可以读<a href="/articles/toilet-guide">附近公厕指引完整说明</a>；定位权限与数据用途见<a href="/privacy">隐私政策</a>。</p>
+      </section>
+      <section class="faq-block faq-block--narrow">
         <h2 class="reveal">常见问题</h2>
         <div class="faq-list reveal">
           <details class="faq-item">
@@ -2029,6 +2044,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>

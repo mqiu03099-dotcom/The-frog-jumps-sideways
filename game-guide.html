@@ -46,9 +46,9 @@ body {
   font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-html,
-a,
-button {
+*,
+*::before,
+*::after {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -1887,7 +1887,7 @@ html:has(.site-body) {
       <p>大多数问题都出在“打开了网页，但还没有进入微信”。可以按下面的顺序尝试：</p>
       <ol>
         <li>在作品页点击“点击即玩”。如果页面提供了微信文章链接，会在新窗口打开微信文章，再按文章中的提示进入小程序。</li>
-        <li>长按作品页的二维码并保存到相册，然后打开微信“扫一扫”，从相册中选择这张二维码。</li>
+        <li>长按作品页的二维码并保存到相册，然后打开微信“扫一扫”，从相册中选择这张二维码。跳跳跳的作品页目前是游戏封面，没有可扫描的二维码，请改用下一步的名称搜索。</li>
         <li>也可以复制作品名称，打开微信顶部的搜索框，搜索小程序名称。请确认名称完全一致，避免进入同名或仿冒结果。</li>
         <li>如果微信提示“无法打开”或停留在空白页，先更新微信到较新版本，再检查网络连接，然后重新进入。</li>
       </ol>
@@ -1990,6 +1990,7 @@ html:has(.site-body) {
     </div>
     <nav class="site-footer-links" aria-label="站点信息">
       <a href="/about">关于</a>
+      <a href="/editorial">内容与核对</a>
       <a href="/game-guide">游戏指南</a>
       <a href="/faq">常见问题</a>
       <a href="/contact">联系</a>
