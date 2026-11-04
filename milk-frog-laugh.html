@@ -10,20 +10,20 @@
   <meta name="author" content="奶蛙小游戏合集">
   <meta
     name="description"
-    content="奶蛙（naiwa）大笑整理了奶蛙表情包、动图、头像、电脑壁纸与4K壁纸，以及视频和音频内容；扫描二维码或复制小程序短链接，在微信中查看。"
+    content="奶蛙（naiwa）大笑整理了奶蛙表情包、图片、GIF 动图、头像、电脑壁纸与4K壁纸，以及视频和音频内容；扫描二维码或复制小程序短链接，在微信中查看。"
   >
   <meta
     name="keywords"
-    content="奶蛙,naiwa,奶蛙 naiwa,奶蛙大笑,奶蛙表情包,奶蛙动图,奶蛙视频,奶蛙头像,奶蛙壁纸,电脑壁纸,4K壁纸,聊天表情包,微信小程序,微信小游戏,休闲小游戏,Milky Frog"
+    content="奶蛙,naiwa,奶蛙 naiwa,奶蛙大笑,奶蛙图片,奶蛙表情包,奶娃表情包,奶蛙gif,奶蛙素材,奶蛙动图,奶蛙视频,奶蛙头像,奶蛙壁纸,电脑壁纸,4K壁纸,聊天表情包,微信小程序,微信小游戏,休闲小游戏,Milky Frog"
   >
   <link rel="canonical" href="https://milkyfrog.vip/milk-frog-laugh">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:site_name" content="奶蛙小游戏合集">
-  <meta property="og:title" content="奶蛙大笑 - 奶蛙表情包 · 视频头像壁纸合集">
+  <meta property="og:title" content="奶蛙大笑 - 奶蛙表情包、图片、GIF 与头像壁纸">
   <meta
     property="og:description"
-    content="奶蛙表情包、动图、头像、电脑壁纸与4K壁纸持续整理，也有奶蛙大笑视频和音频；扫描二维码或复制小程序短链接，在微信中查看奶蛙大笑。"
+    content="奶蛙表情包、图片、GIF 动图、头像、电脑壁纸与4K壁纸持续整理，也有奶蛙大笑视频和音频；扫描二维码或复制小程序短链接，在微信中查看奶蛙大笑。"
   >
   <meta property="og:url" content="https://milkyfrog.vip/milk-frog-laugh">
   <meta property="og:image" content="https://milkyfrog.vip/images/projects/laugh/mini-program-avatar.png">
@@ -33,21 +33,21 @@
   <meta property="og:image:height" content="132">
   <meta property="og:image:alt" content="奶蛙大笑小程序头像">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="奶蛙大笑 - 奶蛙表情包 · 视频头像壁纸合集">
+  <meta name="twitter:title" content="奶蛙大笑 - 奶蛙表情包、图片、GIF 与头像壁纸">
   <meta
     name="twitter:description"
-    content="奶蛙表情包、动图、头像、电脑壁纸与4K壁纸持续整理，也有奶蛙大笑视频和音频；扫描二维码或复制小程序短链接，在微信中查看奶蛙大笑。"
+    content="奶蛙表情包、图片、GIF 动图、头像、电脑壁纸与4K壁纸持续整理，也有奶蛙大笑视频和音频；扫描二维码或复制小程序短链接，在微信中查看奶蛙大笑。"
   >
   <meta name="twitter:image" content="https://milkyfrog.vip/images/projects/laugh/mini-program-avatar.png">
   <meta name="twitter:image:alt" content="奶蛙大笑小程序头像">
   <link rel="icon" type="image/png" href="/images/favicon-64.png?v=20261103">
-  <title>奶蛙大笑 - 奶蛙表情包 · 视频头像壁纸合集</title>
+  <title>奶蛙大笑 - 奶蛙表情包、图片、GIF 与头像壁纸</title>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "VideoGame",
       "name": "奶蛙大笑",
-      "description": "收录奶蛙表情包、动图、头像、电脑壁纸与4K壁纸的微信小程序，也整理奶蛙大笑视频与音频。",
+      "description": "收录奶蛙表情包、图片、GIF 动图、头像、电脑壁纸与4K壁纸的微信小程序，也整理奶蛙大笑视频与音频。",
       "url": "https://milkyfrog.vip/milk-frog-laugh",
       "image": "https://milkyfrog.vip/images/projects/laugh/mini-program-avatar.png",
       "applicationCategory": "Game",
@@ -1905,6 +1905,43 @@ html:has(.site-body) {
   font-size: 0.9rem;
   line-height: 1.9;
 }
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 0;
+}
+
+.image-gallery figure {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid rgb(247 241 212 / 16%);
+  border-radius: 0.9rem;
+  background: rgb(247 241 212 / 5%);
+}
+
+.image-gallery img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  border-radius: 0.6rem;
+  background: rgb(247 241 212 / 6%);
+  object-fit: contain;
+}
+
+.image-gallery figcaption {
+  margin-top: 0.55rem;
+  color: var(--site-muted);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.image-gallery a {
+  color: var(--site-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6584635184413581" crossorigin="anonymous"></script>
   <script async src="https://fundingchoicesmessages.google.com/i/pub-6584635184413581?ers=1"></script>
@@ -1938,7 +1975,7 @@ html:has(.site-body) {
           <div class="mini-stamp">快乐<br>收藏</div>
         </div>
 
-        <p class="entry-lead">奶蛙（naiwa）表情包、动图、头像、电脑壁纸与 4K 壁纸持续整理；奶蛙大笑视频和音频也会陆续更新。</p>
+        <p class="entry-lead">奶蛙（naiwa）表情包、图片、GIF 动图、头像、电脑壁纸与 4K 壁纸持续整理；奶蛙大笑视频和音频也会陆续更新。</p>
 
         <div class="entry-qr">
           <img
@@ -2002,9 +2039,25 @@ html:has(.site-body) {
       <section class="faq-block faq-block--narrow">
         <h2 class="reveal">进一步了解奶蛙大笑</h2>
         <p class="reveal">奶蛙大笑把内容按使用场景分开：聊天里用的是表情包和动图，个人主页可以换头像，电脑端则更适合壁纸。不同内容的尺寸、格式和数量会随整理进度变化，作品页只负责说明方向，实际可保存的文件以小程序内当次展示为准。</p>
+        <div class="image-gallery reveal">
+          <figure>
+            <img src="/images/milk-frog-gifs/milk-frog-hands.gif" alt="奶蛙双手交叠、一本正经听讲的 GIF 动图" width="882" height="1024" loading="lazy">
+            <figcaption>奶蛙捧手听讲 GIF。<a href="/images/milk-frog-gifs/milk-frog-hands.gif" download="奶蛙听讲.gif">保存 GIF</a></figcaption>
+          </figure>
+          <figure>
+            <img src="/images/milk-frog-gifs/milk-frog-orange.gif" alt="橘色奶蛙站着微微一笑的 GIF 动图" width="300" height="376" loading="lazy">
+            <figcaption>橘色奶蛙站着微笑 GIF。<a href="/images/milk-frog-gifs/milk-frog-orange.gif" download="奶蛙微笑.gif">保存 GIF</a></figcaption>
+          </figure>
+          <figure>
+            <img src="/images/milk-frog-gifs/milk-frog-jump.gif" alt="奶蛙张开双手笑着跳起来的 GIF 动图" width="237" height="300" loading="lazy">
+            <figcaption>奶蛙笑着跳起来 GIF。<a href="/images/milk-frog-gifs/milk-frog-jump.gif" download="奶蛙跳跃.gif">保存 GIF</a></figcaption>
+          </figure>
+        </div>
+        <p class="reveal">这三张是站内可以直接查看的奶蛙 GIF：捧手听讲、站着微笑和笑着跳起来。网页没有把小程序里的全部表情包复制过来，也没有提供“一键下载全部”的压缩包；更多表情包、GIF 动图、头像和壁纸，仍以奶蛙大笑小程序内的当次展示为准。</p>
+        <p class="reveal">搜索时，“奶蛙图片”“奶蛙表情包”“奶蛙 GIF”和“奶蛙素材”常常混着出现；也有人把奶蛙写成“奶娃”。两种写法在搜索结果里都可能出现，站内正式写法是奶蛙，英文名是 Milky Frog。</p>
         <p class="reveal">保存之前先确认用途。发给朋友、放在自己的聊天窗口里，属于日常个人使用；批量转载到公众号、做成商品、印在物料上或再次发布，则需要先取得授权。拿不准时，最稳妥的做法是通过站点联系页说明具体用途。</p>
         <p class="reveal">壁纸和头像还要注意裁切。同一张图在手机上看着完整，换到电脑桌面或圆形头像框里，边缘可能会被裁掉。保存后先预览一次，确认主体和文字没有被截断，再设为背景。</p>
-        <p class="reveal">更多关于表情、头像和壁纸的使用边界，可以读<a href="/articles/milk-frog-laugh">奶蛙大笑内容说明</a>；站点如何标注来源和核对日期，则写在<a href="/editorial">内容与核对</a>页。</p>
+        <p class="reveal">更多关于表情、头像和壁纸的使用边界，可以读<a href="/articles/milk-frog-laugh">奶蛙大笑内容说明</a>和<a href="/articles/milk-frog-images">奶蛙图片与表情包专题</a>；站点如何标注来源和核对日期，则写在<a href="/editorial">内容与核对</a>页。</p>
       </section>
       <section class="faq-block faq-block--narrow">
         <h2 class="reveal">常见问题</h2>
