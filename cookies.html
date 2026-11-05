@@ -160,7 +160,6 @@ button:focus-visible {
 
 .responsive-layout {
   max-width: 72rem;
-  animation: invitation-arrive 720ms 120ms var(--ease-out-quint) both;
 }
 
 .page-mascot {
@@ -558,17 +557,6 @@ button:focus-visible {
     opacity: 0.62;
     filter: saturate(0.92) contrast(1.05) brightness(0.84) drop-shadow(0 1.2rem 1.5rem rgb(4 45 34 / 22%));
     transform: translateX(-50%) rotate(-3deg);
-  }
-}
-
-@keyframes invitation-arrive {
-  from {
-    opacity: 0;
-    transform: translateY(-4.5rem) rotate(-0.5deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg);
   }
 }
 
@@ -1390,43 +1378,6 @@ html:has(.site-body) {
   margin-top: 0;
 }
 
-/* 出场动画 */
-.anim-ready .site-header {
-  animation: site-enter 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.anim-ready .reveal {
-  opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition:
-    opacity 820ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 820ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.anim-ready .reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
-
-.anim-ready .site-hero .reveal,
-.anim-ready .invitation-paper {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-
-@keyframes site-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(0, -10px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* 项目详情 */
 .detail-container {
   position: relative;
@@ -1589,15 +1540,8 @@ html:has(.site-body) {
   }
 
   .site-orbs::before,
-  .site-orbs::after,
-  .anim-ready .site-header {
+  .site-orbs::after {
     animation: none;
-  }
-
-  .anim-ready .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 }
 
@@ -1881,6 +1825,6 @@ html:has(.site-body) {
       <a href="/terms">服务条款</a>
     </nav>
   </footer>
-  <script src="/js/site.js?v=20261103-32" defer></script>
+  <script src="/js/site.js?v=20261105-1" defer></script>
 </body>
 </html>

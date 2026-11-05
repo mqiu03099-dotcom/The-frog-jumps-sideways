@@ -1,8 +1,3 @@
-document.documentElement.classList.add('anim-ready');
-
-const revealItems = document.querySelectorAll('.reveal');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 const header = document.querySelector('.site-header, .detail-header');
 
 if (header) {
@@ -29,28 +24,6 @@ if (header) {
 
   scheduleHeader();
   window.addEventListener('scroll', scheduleHeader, { passive: true });
-}
-
-if (reduceMotion || !('IntersectionObserver' in window)) {
-  revealItems.forEach((item) => item.classList.add('is-in'));
-} else {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        const item = entry.target;
-        item.style.transitionDelay = `${Number(item.dataset.delay || 0)}ms`;
-        item.classList.add('is-in');
-        observer.unobserve(item);
-      });
-    },
-    { rootMargin: '0px 0px -6% 0px', threshold: 0.15 }
-  );
-
-  revealItems.forEach((item) => observer.observe(item));
 }
 
 const copyItems = document.querySelectorAll('[data-copy]');
