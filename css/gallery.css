@@ -48,6 +48,7 @@
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 22px 20px;
   margin-top: 2.4rem;
+  overflow-anchor: none;
 }
 
 .card {
@@ -87,10 +88,6 @@
 
 .card:hover .thumb img {
   transform: scale(1.035);
-}
-
-.sentinel {
-  height: 1px;
 }
 
 body.is-locked {

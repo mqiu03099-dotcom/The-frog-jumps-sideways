@@ -1,4 +1,61 @@
 # css/js 通过 ?v= 版本号更新，可长期缓存；图片未带版本号，保守 7 天
+/
+  Cache-Control: public, max-age=300, must-revalidate
+
+/about
+  Cache-Control: public, max-age=300, must-revalidate
+
+/articles
+  Cache-Control: public, max-age=300, must-revalidate
+
+/articles/*
+  Cache-Control: public, max-age=300, must-revalidate
+
+/avatars
+  Cache-Control: public, max-age=300, must-revalidate
+
+/contact
+  Cache-Control: public, max-age=300, must-revalidate
+
+/cookies
+  Cache-Control: public, max-age=300, must-revalidate
+
+/editorial
+  Cache-Control: public, max-age=300, must-revalidate
+
+/emoji-packs
+  Cache-Control: public, max-age=300, must-revalidate
+
+/faq
+  Cache-Control: public, max-age=300, must-revalidate
+
+/game-guide
+  Cache-Control: public, max-age=300, must-revalidate
+
+/milk-frog-color
+  Cache-Control: public, max-age=300, must-revalidate
+
+/milk-frog-greedy
+  Cache-Control: public, max-age=300, must-revalidate
+
+/milk-frog-jump
+  Cache-Control: public, max-age=300, must-revalidate
+
+/milk-frog-laugh
+  Cache-Control: public, max-age=300, must-revalidate
+
+/privacy
+  Cache-Control: public, max-age=300, must-revalidate
+
+/terms
+  Cache-Control: public, max-age=300, must-revalidate
+
+/toilet-guide
+  Cache-Control: public, max-age=300, must-revalidate
+
+/wallpapers
+  Cache-Control: public, max-age=300, must-revalidate
+
 /css/*
   Cache-Control: public, max-age=31536000, immutable
 
@@ -6,4 +63,13 @@
   Cache-Control: public, max-age=31536000, immutable
 
 /images/*
+  Cache-Control: public, max-age=2592000
+
+/avatars/*
+  Cache-Control: public, max-age=2592000
+
+/emoji-packs/*
+  Cache-Control: public, max-age=2592000
+
+/wallpapers/*
   Cache-Control: public, max-age=2592000
